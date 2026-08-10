@@ -6,6 +6,46 @@ roughly ordered by how much extra effort they'd take, for if you want to
 extend the talk or do a follow-up session. None of these have flowgraphs
 built yet — flagging what each would need.
 
+## Things to do with a wideband capture (no new flowgraph needed)
+
+Once you've recorded the whole 2m band (`flowgraphs/03`+`04`, or
+`full-band-demo/`), the file itself is reusable well beyond a single
+playback. These came out of `full-band-demo/README.md` and don't require
+building anything new:
+
+- **Call-sign replay.** Have everyone in the room set their HT to a
+  simplex frequency (146.400-146.580 or 147.400-147.599 MHz), record while
+  each person keys up and gives their call, then play the recording back —
+  everyone hears every ID replayed exactly as sent. Great group-participation
+  closer.
+- **Offline demodulation of any signal in the band.** Because the capture
+  has everything between 144-148 MHz at once, you can open it after the
+  fact in GQRX, SDR++, SDRangel, or a fresh GNU Radio flowgraph and tune to
+  *any* frequency in that span — including ones nobody was actively
+  listening to at record time.
+- **Repeatable receiver testing.** Replay the same file into a receiver
+  under test for bit-for-bit identical RF stimulus every time — useful for
+  comparing antennas, filters, or firmware builds under identical signal
+  conditions, independent of live propagation.
+- **Interference documentation.** Record a session with interference
+  present, then replay it slowly or freeze on a waterfall frame to
+  characterize frequency, bandwidth, duty cycle, and modulation — a replay
+  file can accompany an interference report to a frequency coordinator.
+- **Propagation event capture.** Sporadic-E, aurora, meteor scatter, and
+  tropo openings are brief and unpredictable; recording a wide slice of the
+  band during an opening preserves everything that appeared, including
+  signals nobody was tuned to at the time.
+- **Slow-motion / time-stretched analysis.** GNU Radio can read the file
+  back slower than real time (drop `samp_rate` in the playback flowgraph to
+  a fraction of the recorded rate), stretching a 5-second event into
+  minutes to measure timing relationships or frequency drift invisible in
+  real time.
+- **Protocol decoding and logging.** Pass the file through Direwolf
+  (APRS/AX.25), DSD (DMR/P25), or multimon-ng to extract digital messages
+  after the fact — since it doesn't need to run in real time, missed
+  packets can be recovered by replaying the same segment. See also the APRS
+  and digital-voice entries below for live versions of this.
+
 ## Quick wins (an hour or two of flowgraph work, no new dependencies)
 
 - **CTCSS/PL tone squelch decode.** Add a tone decoder (Goertzel or a

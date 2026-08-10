@@ -7,12 +7,14 @@ mixed audience (ham club + general tech), but trims down fine for a shorter slot
 ## What's in this repo
 
 ```
-flowgraphs/   6 working GNU Radio Companion (.grc) flowgraphs, GRC 3.10 format
-recordings/   Where captured IQ files land (empty until you run Demo 3)
-slides/       The talk deck: SDR_Demo.pptx (18 slides), plus build_deck.py
-              that generated it and requirements.txt (python-pptx)
-README.md     This file — setup, legal notes, run order
-BRAINSTORM.md Additional demo ideas beyond the ones built out here
+flowgraphs/       6 working GNU Radio Companion (.grc) flowgraphs, GRC 3.10 format
+full-band-demo/   Standalone gr-osmosdr implementation of the same wideband
+                  2m-band record/playback demo -- its own README, see below
+recordings/       Where captured IQ files land (empty until you run Demo 3)
+slides/           The talk deck: SDR_Demo.pptx (18 slides), plus build_deck.py
+                  that generated it and requirements.txt (python-pptx)
+README.md         This file — setup, legal notes, run order
+BRAINSTORM.md     Additional demo ideas beyond the ones built out here
 ```
 
 **Slides**: `slides/SDR_Demo.pptx` is ready to present as-is, or upload it to
@@ -96,6 +98,21 @@ Two of the six flowgraphs key up the HackRF's transmitter on the ham bands:
 | 2 | `02_nbfm_voice_receiver.grc` | Tunable narrowband FM voice receiver. Key up the handheld on 146.520 MHz (national 2m simplex calling frequency) and hear it through the laptop speakers. |
 | 3 | `03_record_2m_band_to_file.grc` → `04_playback_2m_band_from_file.grc` | **The headline demo.** Capture the *entire* 144-148 MHz band as raw IQ to a file (run 03, key up the HT once or twice during the recording, stop the flowgraph), then play the file back out through the HackRF (run 04) and hear/see the exact same signal reappear on the air. |
 | 4 (optional, needs control operator) | `05_nbfm_voice_transmitter.grc` | Talk into the laptop mic, hear yourself on the handheld — the reverse direction, live two-way. |
+
+**Two implementations of Demo 3**: `flowgraphs/03`+`04` (above) uses
+SoapySDR/Soapy HackRF blocks and a self-describing `file_meta_sink`, with
+manual start/stop. `full-band-demo/` is a standalone, previously-released
+gr-osmosdr implementation of the same idea — fixed-duration auto-recording
+(a "Record Time" slider, 1-600s) into a headerless raw file, plus a CLI
+(`--in-file`/`--center-freq`) on the playback side. Functionally
+equivalent; pick whichever matches the driver stack you have installed
+(SoapySDR vs. `gr-osmosdr`), or run both back-to-back as a "two ways to
+build the same demo" aside. See `full-band-demo/README.md` for its own
+setup/usage — it also has a much longer list of things to do with a
+wideband capture once you have one (callsign replay, offline demodulation
+of any signal in the band, repeatable receiver testing, interference
+documentation, and more), several of which are folded into
+`BRAINSTORM.md`.
 
 ## Running a flowgraph
 
