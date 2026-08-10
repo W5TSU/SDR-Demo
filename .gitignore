@@ -1,0 +1,13 @@
+# Claude Code harness settings (local, not project content)
+.claude/
+
+# Generated / build artifacts
+__pycache__/
+*.pyc
+.venv/
+
+# Wideband IQ recordings -- multi-GB, regenerate via the record flowgraphs
+recordings/*.iq
+recordings/*.iqmeta
+recordings/*.dat
+!recordings/.gitkeep
