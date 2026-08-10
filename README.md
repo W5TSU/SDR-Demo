@@ -183,14 +183,26 @@ python3 two_m_playback.py
 
 It defines `two_m_playback`, the same `gr.top_block` / `Qt.QWidget` pattern. On startup it:
 
-1. Builds two Qt slider widgets for **Center Frequency** and **TX VGA Gain**.
+1. Builds one Qt slider widget for **TX VGA Gain**. `center_freq` and `in_file`
+   are constructor parameters (set via `--center-freq`/`--in-file`, or by
+   editing the call in `main()`) rather than GUI sliders — there's no
+   Center Frequency slider in this flowgraph.
 2. Creates a `blocks.file_source` reading `gr_complex` samples from `/tmp/2m_capture.iq` with `repeat=False` — the source signals end-of-stream when the file is exhausted.
 3. Creates an `osmosdr.sink` pointed at `hackrf=0`, configured at 5 Msps with `if_gain` (TX VGA) set from the slider default. The RF amplifier is left off (`gain=0`).
 4. Creates a `qtgui.freq_sink_c` fed from the file source so you can monitor the spectrum while it transmits.
 5. Connects: `file_source → osmosdr_sink`, `file_source → freq_sink`.
-6. Launches a daemon thread (`eof_watcher`) that calls `tb.wait()` — blocking until the GNU Radio scheduler stops because the file source sent end-of-stream — then calls `Qt.QApplication.quit()` to close the window.
+6. Launches a daemon thread (`eof_watcher`) that sleeps for the recording's
+   known duration (`num_samples / samp_rate`, plus a 500 ms flush buffer)
+   then stops the flowgraph and closes the window. This is a hand-written
+   addition, not something GRC generates — `osmosdr.sink` is a hardware
+   clock master that keeps the scheduler running indefinitely, so a plain
+   `tb.wait()` on end-of-stream never returns on its own. **If you
+   regenerate `two_m_playback.py` from `2m_playback.grc`** (GRC's F5/F6, or
+   `grcc`), this block is not part of the flowgraph and will be silently
+   dropped — re-apply it from the `BEGIN/END CUSTOM PATCH` markers in the
+   current file, or diff against git history to recover it.
 
-Each variable in both scripts has a paired `get_`/`set_` method. The `set_tx_gain` callback updates `osmosdr_sink_0.set_if_gain()` live, and `set_center_freq` updates both the hardware and the spectrum display, so neither requires a restart to take effect.
+Each variable in both scripts has a paired `get_`/`set_` method. The `set_tx_gain` callback updates `osmosdr_sink_0.set_if_gain()` live, and `set_center_freq` updates both the hardware and the spectrum display, so neither requires a restart to take effect. As of the `freq0` fix, both scripts also apply `center_freq` to the hardware **on startup**, not just on subsequent slider/setter calls — previously the initial tune was hardcoded to 146.520 MHz regardless of the configured `center_freq`.
 
 
 
@@ -201,7 +213,7 @@ The two Python scripts share three variables that **must be identical** for a re
 | Variable      | Value                  | Used in record                                               | Used in playback                                             |
 | ------------- | ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | `samp_rate`   | `5000000`              | Sets the HackRF ADC rate and the file write rate             | Sets the HackRF DAC rate and must match the file's sample rate |
-| `center_freq` | `146500000`            | Initial hardware tune point; slider calls `osmosdr_source_0.set_center_freq()` | Initial hardware tune point; slider calls `osmosdr_sink_0.set_center_freq()` |
+| `center_freq` | `146500000`            | Initial hardware tune point; GUI slider calls `osmosdr_source_0.set_center_freq()` live | Initial hardware tune point, set via `--center-freq` (no GUI slider in this flowgraph); retuning after launch requires calling `set_center_freq()` yourself or editing the script |
 | file path     | `"/tmp/2m_capture.iq"` | `out_file` — path passed to `blocks.file_sink`               | `in_file` — path passed to `blocks.file_source`              |
 
 `samp_rate` is the most critical: the file is a raw stream of samples with no header, so the playback script has no way to detect the recorded rate. A mismatch compresses or stretches the signal in time and shifts all frequencies proportionally.

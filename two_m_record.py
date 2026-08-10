@@ -8,24 +8,25 @@
 # Title: 2M Band Recorder
 # Author: W5TSU
 # Description: Record 144-149 MHz IQ data using HackRF
-# GNU Radio version: 3.10.10.0
+# GNU Radio version: 3.10.12.0
 
 from PyQt5 import Qt
 from gnuradio import qtgui
 from PyQt5 import QtCore
 from gnuradio import blocks
+import osmosdr
+import time
+import sip
+import threading
 from gnuradio import gr
 from gnuradio.filter import firdes
 from gnuradio.fft import window
 import sys
 import signal
-from PyQt5 import Qt
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
-import osmosdr
-import time
-import sip
+
 
 
 
@@ -52,7 +53,7 @@ class two_m_record(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "two_m_record")
+        self.settings = Qt.QSettings("gnuradio/flowgraphs", "two_m_record")
 
         try:
             geometry = self.settings.value("geometry")
@@ -60,6 +61,7 @@ class two_m_record(gr.top_block, Qt.QWidget):
                 self.restoreGeometry(geometry)
         except BaseException as exc:
             print(f"Qt GUI: Could not restore geometry: {str(exc)}", file=sys.stderr)
+        self.flowgraph_started = threading.Event()
 
         ##################################################
         # Variables
@@ -193,7 +195,7 @@ class two_m_record(gr.top_block, Qt.QWidget):
         )
         self.osmosdr_source_0.set_time_unknown_pps(osmosdr.time_spec_t())
         self.osmosdr_source_0.set_sample_rate(samp_rate)
-        self.osmosdr_source_0.set_center_freq(146.520e6, 0)
+        self.osmosdr_source_0.set_center_freq(center_freq, 0)
         self.osmosdr_source_0.set_freq_corr(0, 0)
         self.osmosdr_source_0.set_dc_offset_mode(0, 0)
         self.osmosdr_source_0.set_iq_balance_mode(0, 0)
@@ -218,7 +220,7 @@ class two_m_record(gr.top_block, Qt.QWidget):
 
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "two_m_record")
+        self.settings = Qt.QSettings("gnuradio/flowgraphs", "two_m_record")
         self.settings.setValue("geometry", self.saveGeometry())
         self.stop()
         self.wait()
@@ -282,6 +284,7 @@ def main(top_block_cls=two_m_record, options=None):
     tb = top_block_cls()
 
     tb.start()
+    tb.flowgraph_started.set()
 
     tb.show()
 

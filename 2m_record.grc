@@ -352,7 +352,7 @@ blocks:
     dc_offset_mode7: '0'
     dc_offset_mode8: '0'
     dc_offset_mode9: '0'
-    freq0: 146.520e6
+    freq0: center_freq
     freq1: 100e6
     freq10: 100e6
     freq11: 100e6

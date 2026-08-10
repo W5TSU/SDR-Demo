@@ -295,7 +295,7 @@ blocks:
     corr7: '0'
     corr8: '0'
     corr9: '0'
-    freq0: 146.520e6
+    freq0: center_freq
     freq1: 100e6
     freq10: 100e6
     freq11: 100e6
