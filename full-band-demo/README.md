@@ -1,5 +1,7 @@
 # Full Band Demo
 
+Mark Grennan  •  W5TSU
+
 ## 2M Band IQ Record/Playback Demo
 
 This demonstration records the entire radio 2-meter (144-149) radio spectrum to a "raw" data file.
