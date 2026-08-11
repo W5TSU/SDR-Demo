@@ -469,12 +469,11 @@ s = new_slide()
 kicker_title(s, "Demo 0  ·  Icebreaker", "FM Broadcast Receiver", kicker_color=MUTED)
 pill(s, Inches(0.7), Inches(1.85), Inches(1.5), Inches(0.35), "RECEIVE ONLY", fill=TEAL_DIM, text_color=TEAL, size=12)
 add_bullets(s, Inches(0.7), Inches(2.5), Inches(11.7), Inches(3.6), [
-    "Flowgraph: 06_bonus_fm_broadcast_receiver.grc",
-    "Tune to any strong local FM station (88-108 MHz) and hear music "
-    "instantly through the laptop speakers.",
-    "Not a ham-band demo -- it's here to prove the whole chain works "
-    "(driver, HackRF, GNU Radio, audio out) before the ham material, and "
-    "it needs no license to receive.",
+    "A quick tune to any strong local FM station brings music through the "
+    "laptop speakers, instantly.",
+    "Not a ham-band demo -- it proves the whole chain works (driver, "
+    "HackRF, GNU Radio, audio out) before the ham material, and it needs "
+    "no license to receive.",
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
@@ -483,13 +482,12 @@ s = new_slide()
 kicker_title(s, "Demo 1", "Live Spectrum & Waterfall", kicker_color=TEAL)
 pill(s, Inches(0.7), Inches(1.85), Inches(1.5), Inches(0.35), "RECEIVE ONLY", fill=TEAL_DIM, text_color=TEAL, size=12)
 add_bullets(s, Inches(0.7), Inches(2.5), Inches(11.7), Inches(3.8), [
-    "Flowgraph: 01_spectrum_waterfall_tunable.grc",
-    "One flowgraph, both ham bands -- retype the center frequency live: "
-    "146.520 MHz (2m) then 446.000 MHz (70cm).",
-    "Key up the handheld on each band and watch the signal light up the "
-    "spectrum plot and waterfall in real time.",
-    "Talking point: this is the same 10 MHz of RF spectrum a traditional "
-    "radio can only look at one narrow slice of at a time.",
+    "One flowgraph covers both ham bands -- we'll retune live between 2m "
+    "and 70cm.",
+    "Watch the spectrum plot and waterfall light up in real time as a "
+    "handheld transmission appears.",
+    "It's the same slice of RF spectrum a traditional radio can only "
+    "look at one narrow channel of at a time.",
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
@@ -498,13 +496,11 @@ s = new_slide()
 kicker_title(s, "Demo 2", "Tunable NBFM Voice Receiver", kicker_color=TEAL)
 pill(s, Inches(0.7), Inches(1.85), Inches(1.5), Inches(0.35), "RECEIVE ONLY", fill=TEAL_DIM, text_color=TEAL, size=12)
 add_bullets(s, Inches(0.7), Inches(2.5), Inches(11.7), Inches(3.8), [
-    "Flowgraph: 02_nbfm_voice_receiver.grc",
     "A real narrowband FM voice receiver -- channel filter, resampler, "
     "FM demodulator, straight to the speakers.",
-    "Default: 146.520 MHz, the national 2m simplex calling frequency. Key "
-    "up the handheld there and it comes through the laptop.",
-    "Talking point: this whole receiver -- the part that's a dedicated "
-    "chip in a normal radio -- is about a dozen blocks of software here.",
+    "Tuned to 146.520 MHz, the national 2m simplex calling frequency.",
+    "This whole receiver -- normally a dedicated chip in an off-the-shelf "
+    "radio -- is about a dozen blocks of software here.",
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
@@ -516,14 +512,13 @@ add_text(s, Inches(0.7), Inches(0.86), Inches(11.9), Inches(1.0),
           "Record the Entire 2m Band", size=34, color=INK, bold=True)
 accent_bar(s, y=Inches(1.7), color=AMBER)
 add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
-    "Flowgraph: 03_record_2m_band_to_file.grc",
     "Tunes to 146.0 MHz center at 6 Msps -- covers 143.0 to 149.0 MHz, the "
     "whole 144-148 MHz 2m band with margin to spare.",
     ("Not one channel -- every signal on the entire band, captured at once",
      ["Raw IQ, written to a self-describing file (sample rate + center "
       "frequency saved in the header)"]),
-    "Live: hit Execute, key up the handheld once or twice, hit Stop. "
-    "~2.9 GB/minute -- a 20-30 second capture is plenty for the demo.",
+    "A single recording captures everything transmitted on the band "
+    "during that window -- roughly 2.9 GB per minute at this sample rate.",
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
@@ -537,11 +532,10 @@ accent_bar(s, y=Inches(1.7), color=AMBER)
 pill(s, Inches(0.7), Inches(1.9), Inches(2.3), Inches(0.4), "TRANSMITS — SEE NEXT SLIDE",
      fill=AMBER_DIM, text_color=AMBER, size=12)
 add_bullets(s, Inches(0.7), Inches(2.55), Inches(11.7), Inches(4.0), [
-    "Flowgraph: 04_playback_2m_band_from_file.grc",
     "Reads the file back and feeds it straight into the HackRF's "
     "transmitter -- the exact recorded band reappears on the air.",
-    "Watch the waterfall reproduce exactly what was captured; the "
-    "handheld hears the same signal a second time, live.",
+    "The waterfall reproduces exactly what was captured; the handheld "
+    "hears the same signal a second time, live.",
     "This is the moment that makes SDR click: the recording *is* the "
     "radio signal -- numbers on disk, transmitted back as RF.",
 ], size=19, gap=16)
@@ -572,13 +566,9 @@ s = new_slide()
 kicker_title(s, "Demo 4  ·  Optional", "NBFM Voice Transmitter", kicker_color=AMBER)
 pill(s, Inches(0.7), Inches(1.85), Inches(2.5), Inches(0.35), "TRANSMITS — CONTROL OP REQUIRED", fill=AMBER_DIM, text_color=AMBER, size=12)
 add_bullets(s, Inches(0.7), Inches(2.5), Inches(11.7), Inches(3.8), [
-    "Flowgraph: 05_nbfm_voice_transmitter.grc",
     "The reverse direction: laptop microphone → NBFM modulator → HackRF "
     "→ antenna.",
-    "Talk into the laptop, hear yourself on the handheld -- live two-way, "
-    "same 146.520 MHz simplex frequency as Demo 2.",
-    "Skip this one if there's no control operator in the room -- Demos "
-    "0-3 already tell the full story.",
+    "Live two-way on the same 146.520 MHz simplex frequency as Demo 2.",
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
