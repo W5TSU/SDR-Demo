@@ -30,6 +30,12 @@ slides ~7.5 min, live demos ~4.5 min. That leaves comfortable room inside
 a 20-30 minute slot for Q&A, tangents, and re-running something that
 didn't work the first time. Don't rush; the deck is not the bottleneck.
 
+This budget is a floor, not a ceiling -- the deck is fine growing well
+past a 20-30 minute slot (a longer, more thorough session is an
+explicitly acceptable outcome here). The cut-list below exists so any
+given *presentation* of this deck can be trimmed to fit whatever slot
+is actually available, not so the deck itself has to stay short.
+
 ## If you're short on time, cut in this order
 
 1. **Slide 19, Specs at a Glance** — pure reference, skip it live and
@@ -65,7 +71,7 @@ demo — say it every time, not just the first time you present this deck.
 | 12 | Demo 3: Record the Entire 2m Band (headline demo, part 1) | **Run `03_record_2m_band_to_file.grc`.** Hit Execute, key up the handheld once or twice during the recording so there's real content, hit Stop after ~20-30s. Mention the file only flushes on Stop. Writes to `recordings/2m_band_capture.iqmeta` — at ~2.9 GB/minute, don't let it run long. |
 | 13 | Demo 3b: ...And Play It Back Over the Air (headline demo, part 2) | **Run `04_playback_2m_band_from_file.grc`** immediately after Demo 3 — it reads that same file back. Let it run the same rough duration as the recording. This is the "wow" moment; let it land, don't talk over the handheld picking it up. |
 | 14 | Demo 4 (optional): NBFM Voice Transmitter | **Run `05_nbfm_voice_transmitter.grc`.** Talk into the laptop mic, listen for yourself on the handheld (146.520 MHz, same as Demo 2). **Skip this one if there's no control operator in the room** — Demos 0-3 already tell the complete story without it. ~20-25s if you do run it. |
-| 15 | "GNU Radio: What It Is, How It's Used" — What It Actually Is / How We Used It Tonight panels | Content slide, no action. A deeper-dive follow-up to slide 6, now that the audience has seen the tool in action across five demos. Good spot to mention GRCon if anyone's curious about the community. ~35-45s. |
+| 15 | "GNU Radio: What It Actually Is" — history, architecture, block library | Content slide, no action. A deeper-dive follow-up to slide 6, now that the audience has seen the tool in action across five demos. Good spot to riff on how each demo tonight was the same runtime with a different flowgraph, and to mention GRCon if anyone's curious about the community. ~30-40s. |
 | 16 | "Connecting GNU Radio to Other Radios" — Other SDRs / Analog Non-SDR Radios panels | Content slide, no action. Answers the "how would I hook up my own gear" question before anyone has to ask it — RTL-SDR/LimeSDR/PlutoSDR/USRP on one side, audio-interface/CAT-control/direct-RF on the other. ~35-45s. |
 | 17 | "What Just Happened, Technically" (recap) | Content slide, no action. This is where you tie the whole run back to "same hardware, different software." ~25-30s. |
 | 18 | "More Demo Ideas" | Content slide. Point at `BRAINSTORM.md` for the full writeup rather than reading both columns verbatim if time is short. ~20-25s, or skip per the cut list. |

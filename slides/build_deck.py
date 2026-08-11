@@ -582,16 +582,8 @@ footer(s); page_number(s, count(), TOTAL_SLIDES)
 
 # ============================================================= SLIDE 15 ==
 s = new_slide()
-kicker_title(s, "The Software, Revisited", "GNU Radio: What It Is, How It's Used")
-p1x = Inches(0.7); pw = Inches(5.7)
-panel1 = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, p1x, Inches(2.1), pw, Inches(4.5))
-panel1.adjustments[0] = 0.04
-panel1.fill.solid(); panel1.fill.fore_color.rgb = BG_ALT
-panel1.line.color.rgb = TEAL_DIM; panel1.line.width = Pt(1)
-panel1.shadow.inherit = False
-add_text(s, p1x + Inches(0.35), Inches(2.35), pw - Inches(0.7), Inches(0.4),
-          "What It Actually Is", size=19, color=TEAL, bold=True)
-add_bullets(s, p1x + Inches(0.35), Inches(2.85), pw - Inches(0.7), Inches(3.5), [
+kicker_title(s, "The Software, Revisited", "GNU Radio: What It Actually Is")
+add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
     "Started in 2001 (Eric Blossom); now stewarded by the GNU Radio "
     "Project and the GNU Radio Foundation.",
     "C++ underneath for real-time DSP performance; Python (and GNU Radio "
@@ -602,27 +594,7 @@ add_bullets(s, p1x + Inches(0.35), Inches(2.85), pw - Inches(0.7), Inches(3.5), 
     "Hundreds of built-in blocks -- filters, modulators, channel coding, "
     "synchronization -- plus a large ecosystem of out-of-tree (OOT) "
     "modules for specific protocols.",
-], size=15, gap=10)
-
-p2x = Inches(6.9)
-panel2 = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, p2x, Inches(2.1), pw, Inches(4.5))
-panel2.adjustments[0] = 0.04
-panel2.fill.solid(); panel2.fill.fore_color.rgb = BG_ALT
-panel2.line.color.rgb = TEAL_DIM; panel2.line.width = Pt(1)
-panel2.shadow.inherit = False
-add_text(s, p2x + Inches(0.35), Inches(2.35), pw - Inches(0.7), Inches(0.4),
-          "How We Used It Tonight", size=19, color=TEAL, bold=True)
-add_bullets(s, p2x + Inches(0.35), Inches(2.85), pw - Inches(0.7), Inches(3.5), [
-    "Every demo was the same runtime, different flowgraph -- GRC just "
-    "generates the Python self.connect(...) calls behind those block "
-    "diagrams.",
-    "SoapySDR blocks are what actually talked to the HackRF -- swap that "
-    "one block and the same flowgraph can drive different hardware.",
-    "Nothing here was compiled or flashed -- editing a flowgraph and "
-    "rerunning it is the entire iteration loop.",
-    "The .grc files themselves are plain text -- that's why this whole "
-    "demo kit lives in a git repo.",
-], size=15, gap=10)
+], size=19, gap=16)
 add_text(s, Inches(0.7), Inches(7.08), Inches(9), Inches(0.3),
           "Source: gnuradio.org -- GNU Radio Conference (GRCon) happens every year",
           size=10, color=MUTED, italic=True)
