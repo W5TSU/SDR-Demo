@@ -39,8 +39,11 @@ blocks:
 - name: samp_rate
   id: variable
   parameters:
-    comment: ''
-    value: '2.4e6'
+    comment: This HackRF only accepts integer-MHz sample rates (1-20 Msps in
+      1 MHz steps) -- 2.4e6 (the classic RTL-SDR FM-broadcast rate) is
+      rejected at runtime with "Unsupported sample rate". 2 Msps is plenty
+      of margin for one 200 kHz-wide WBFM broadcast channel.
+    value: '2e6'
   states:
     bus_sink: false
     bus_source: false
