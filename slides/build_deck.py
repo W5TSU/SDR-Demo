@@ -160,7 +160,7 @@ def pill(slide, x, y, w, h, text, fill=TEAL_DIM, text_color=TEAL, size=13):
     return shp
 
 
-TOTAL_SLIDES = 18
+TOTAL_SLIDES = 20
 _n = [0]
 
 
@@ -183,7 +183,117 @@ add_text(s, Inches(0.9), Inches(6.6), Inches(8), Inches(0.4),
           "Mark Grennan  •  W5TSU  •  " + "2026",
           size=14, color=MUTED)
 
-# ============================================================== SLIDE 2 ==
+# ============================================================== SLIDE 1B ==
+s = new_slide()
+kicker_title(s, "Before We Touch The Radio", "The Airwaves: 3 Hz – 3 THz")
+add_text(s, Inches(0.7), Inches(1.95), Inches(11.9), Inches(0.75),
+          "By international convention (ITU), everything humans use for wireless "
+          "communication -- from submarine navigation to satellite links -- lives "
+          "somewhere in this range. Twelve decades, back to back, and every one of "
+          "them is already spoken for.",
+          size=18, color=BODY)
+# band ladder: 12 ITU-designated decades, ELF (3 Hz) through THF (3 THz)
+bands = ["ELF", "SLF", "ULF", "VLF", "LF", "MF", "HF", "VHF", "UHF", "SHF", "EHF", "THF"]
+highlight = {"VHF", "UHF"}
+ladder_y = Inches(3.05)
+chip_w = Inches(0.90)
+gap = Inches(0.10)
+total_w = chip_w * len(bands) + gap * (len(bands) - 1)
+lx = (SLIDE_W - total_w) / 2
+for band in bands:
+    is_hi = band in highlight
+    chip = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, lx, ladder_y, chip_w, Inches(0.95))
+    chip.adjustments[0] = 0.15
+    chip.fill.solid()
+    chip.fill.fore_color.rgb = TEAL if is_hi else BG_ALT
+    chip.line.color.rgb = TEAL
+    chip.line.width = Pt(1.5 if is_hi else 0.75)
+    chip.shadow.inherit = False
+    tf = chip.text_frame
+    tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+    p = tf.paragraphs[0]
+    p.alignment = PP_ALIGN.CENTER
+    r = p.add_run()
+    r.text = band
+    r.font.size = Pt(15)
+    r.font.bold = True
+    r.font.color.rgb = BG if is_hi else INK
+    r.font.name = FONT
+    lx += chip_w + gap
+add_text(s, Inches(0.7), Inches(4.15), Inches(2.5), Inches(0.35),
+          "3 Hz", size=13, color=MUTED, bold=True)
+add_text(s, Inches(10.13), Inches(4.15), Inches(2.5), Inches(0.35),
+          "3 THz", size=13, color=MUTED, bold=True, align=PP_ALIGN.RIGHT)
+add_text(s, Inches(0.7), Inches(4.75), Inches(11.9), Inches(0.35),
+          "Each band spans one decade -- band N runs 0.3×10ᴺ Hz to 3×10ᴺ Hz.",
+          size=14, color=MUTED, italic=True, align=PP_ALIGN.CENTER)
+pill(s, Inches(3.9), Inches(5.35), Inches(5.5), Inches(0.45),
+     "Tonight lives here: VHF / UHF", fill=TEAL_DIM, text_color=TEAL, size=15)
+add_bullets(s, Inches(1.6), Inches(6.0), Inches(10.1), Inches(1.0), [
+    "2m (144-148 MHz) and 70cm (420-450 MHz) -- our ham bands -- plus FM "
+    "broadcast (88-108 MHz), all three narrow slivers of one 270:1 span (30 "
+    "MHz-3 GHz).",
+], size=16, gap=0)
+add_text(s, Inches(0.7), Inches(7.08), Inches(9), Inches(0.3),
+          "ITU Radio Regulations, Article 2 -- band designations ELF-THF",
+          size=10, color=MUTED, italic=True)
+page_number(s, count(), TOTAL_SLIDES)
+
+# ============================================================== SLIDE 1C ==
+s = new_slide()
+kicker_title(s, "Before We Touch The Radio",
+             "Every Signal Arrives Already Mixed With Noise")
+p1x = Inches(0.7); pw = Inches(5.7)
+panel1 = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, p1x, Inches(2.0), pw, Inches(4.15))
+panel1.adjustments[0] = 0.04
+panel1.fill.solid(); panel1.fill.fore_color.rgb = BG_ALT
+panel1.line.color.rgb = TEAL_DIM; panel1.line.width = Pt(1)
+panel1.shadow.inherit = False
+add_text(s, p1x + Inches(0.35), Inches(2.25), pw - Inches(0.7), Inches(0.4),
+          "Noise From Nature", size=19, color=TEAL, bold=True)
+add_bullets(s, p1x + Inches(0.35), Inches(2.75), pw - Inches(0.7), Inches(3.3), [
+    "Thermal noise: the atoms in your receiver's own components are "
+    "vibrating with heat -- that's noise, before an antenna is even "
+    "involved.",
+    "Modeled as Gaussian / \"white\" noise -- flat across the whole band. "
+    "That's the hiss you hear with nothing tuned in.",
+    "Lightning sferics: crackly pops from distant thunderstorms, audible "
+    "from VLF up through HF.",
+    "Ionized meteor trails briefly reflect distant signals into a "
+    "receiver -- noise and signal from the same natural event.",
+], size=15, gap=10)
+
+p2x = Inches(6.9)
+panel2 = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, p2x, Inches(2.0), pw, Inches(4.15))
+panel2.adjustments[0] = 0.04
+panel2.fill.solid(); panel2.fill.fore_color.rgb = BG_ALT
+panel2.line.color.rgb = TEAL_DIM; panel2.line.width = Pt(1)
+panel2.shadow.inherit = False
+add_text(s, p2x + Inches(0.35), Inches(2.25), pw - Inches(0.7), Inches(0.4),
+          "Noise We Make Ourselves", size=19, color=TEAL, bold=True)
+add_bullets(s, p2x + Inches(0.35), Inches(2.75), pw - Inches(0.7), Inches(3.3), [
+    "Every switching power supply, phone charger, and LED driver in this "
+    "room is radiating RF -- one of the most common interference sources "
+    "hams fight.",
+    "USB 3.0 leaks clock noise at multiples of 480 MHz; HDMI cables can "
+    "splatter interference across roughly 148-742 MHz.",
+    "Monitors, DisplayPort, powerline networking adapters -- all of it "
+    "adds more.",
+    "None of it is malicious. It's just what happens when fast digital "
+    "clocks run next to a receiver.",
+], size=15, gap=10)
+add_text(s, Inches(0.7), Inches(6.35), Inches(11.9), Inches(0.65),
+          "Every demo tonight starts here: find the signal you want inside "
+          "everything else that's already there. Watch the noise floor on the "
+          "very first demo -- it's not empty.",
+          size=16, color=TEAL, italic=True)
+add_text(s, Inches(0.7), Inches(7.08), Inches(11), Inches(0.3),
+          "Sources: pysdr.org (Ch. 10, Noise and Random Variables) and "
+          "sigidwiki.com (Interfering Emissions category)",
+          size=10, color=MUTED, italic=True)
+page_number(s, count(), TOTAL_SLIDES)
+
+# ============================================================== SLIDE 4 ==
 s = new_slide()
 kicker_title(s, "The Idea", "What Is Software Defined Radio?")
 add_bullets(s, Inches(0.7), Inches(2.1), Inches(6.9), Inches(4.5), [
@@ -230,7 +340,7 @@ for lab, sb in zip(labels, sub):
     by += Inches(1.2)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================== SLIDE 3 ==
+# ============================================================== SLIDE 5 ==
 s = new_slide()
 kicker_title(s, "Why It Matters", "One Radio, Many Radios")
 add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
@@ -245,7 +355,7 @@ add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
 ], size=19, gap=18)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================== SLIDE 4 ==
+# ============================================================== SLIDE 6 ==
 s = new_slide()
 kicker_title(s, "The Hardware", "HackRF One + Ham Handheld")
 # two panel layout
@@ -281,7 +391,7 @@ add_bullets(s, p2x + Inches(0.35), Inches(2.85), pw - Inches(0.7), Inches(3.5), 
 ], size=16, gap=12)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================== SLIDE 5 ==
+# ============================================================== SLIDE 7 ==
 s = new_slide()
 kicker_title(s, "The Software", "GNU Radio + GNU Radio Companion")
 add_bullets(s, Inches(0.7), Inches(2.1), Inches(6.7), Inches(4.5), [
@@ -322,7 +432,7 @@ for i, item in enumerate(chain):
     cy += Inches(0.78)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================== SLIDE 6 ==
+# ============================================================== SLIDE 8 ==
 s = new_slide()
 kicker_title(s, "Core Concept", "Reading a Flowgraph")
 add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(2.0), [
@@ -360,7 +470,7 @@ for i, item in enumerate(items):
     bx += bw + gap_w
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================== SLIDE 7 ==
+# ============================================================== SLIDE 9 ==
 s = new_slide()
 kicker_title(s, "Demo 0  ·  Icebreaker", "FM Broadcast Receiver", kicker_color=MUTED)
 pill(s, Inches(0.7), Inches(1.85), Inches(1.5), Inches(0.35), "RECEIVE ONLY", fill=TEAL_DIM, text_color=TEAL, size=12)
@@ -374,7 +484,7 @@ add_bullets(s, Inches(0.7), Inches(2.5), Inches(11.7), Inches(3.6), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================== SLIDE 8 ==
+# ============================================================== SLIDE 10 ==
 s = new_slide()
 kicker_title(s, "Demo 1", "Live Spectrum & Waterfall", kicker_color=TEAL)
 pill(s, Inches(0.7), Inches(1.85), Inches(1.5), Inches(0.35), "RECEIVE ONLY", fill=TEAL_DIM, text_color=TEAL, size=12)
@@ -389,7 +499,7 @@ add_bullets(s, Inches(0.7), Inches(2.5), Inches(11.7), Inches(3.8), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================== SLIDE 9 ==
+# ============================================================== SLIDE 11 ==
 s = new_slide()
 kicker_title(s, "Demo 2", "Tunable NBFM Voice Receiver", kicker_color=TEAL)
 pill(s, Inches(0.7), Inches(1.85), Inches(1.5), Inches(0.35), "RECEIVE ONLY", fill=TEAL_DIM, text_color=TEAL, size=12)
@@ -404,7 +514,7 @@ add_bullets(s, Inches(0.7), Inches(2.5), Inches(11.7), Inches(3.8), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 10 ==
+# ============================================================= SLIDE 12 ==
 s = new_slide()
 add_text(s, Inches(0.7), Inches(0.5), Inches(11.9), Inches(0.4),
           "DEMO 3 · THE HEADLINE DEMO".upper(), size=14, color=AMBER, bold=True)
@@ -423,7 +533,7 @@ add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 11 ==
+# ============================================================= SLIDE 13 ==
 s = new_slide()
 add_text(s, Inches(0.7), Inches(0.5), Inches(11.9), Inches(0.4),
           "DEMO 3B · THE PAYOFF".upper(), size=14, color=AMBER, bold=True)
@@ -443,7 +553,7 @@ add_bullets(s, Inches(0.7), Inches(2.55), Inches(11.7), Inches(4.0), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 12 ==
+# ============================================================= SLIDE 14 ==
 s = new_slide(bg=RGBColor(0x1A, 0x14, 0x06))
 add_text(s, Inches(0.7), Inches(0.55), Inches(11.9), Inches(0.4),
           "⚠  BEFORE WE TRANSMIT", size=16, color=AMBER, bold=True)
@@ -463,7 +573,7 @@ add_bullets(s, Inches(0.7), Inches(2.25), Inches(11.7), Inches(4.5), [
 ], size=18, color=RGBColor(0xF3, 0xE3, 0xC7), gap=14)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 13 ==
+# ============================================================= SLIDE 15 ==
 s = new_slide()
 kicker_title(s, "Demo 4  ·  Optional", "NBFM Voice Transmitter", kicker_color=AMBER)
 pill(s, Inches(0.7), Inches(1.85), Inches(2.5), Inches(0.35), "TRANSMITS — CONTROL OP REQUIRED", fill=AMBER_DIM, text_color=AMBER, size=12)
@@ -478,7 +588,7 @@ add_bullets(s, Inches(0.7), Inches(2.5), Inches(11.7), Inches(3.8), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 14 ==
+# ============================================================= SLIDE 16 ==
 s = new_slide()
 kicker_title(s, "Recap", "What Just Happened, Technically")
 add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
@@ -495,7 +605,7 @@ add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 15 ==
+# ============================================================= SLIDE 17 ==
 s = new_slide()
 kicker_title(s, "Where This Goes Next", "More Demo Ideas")
 left_items = [
@@ -518,7 +628,7 @@ add_text(s, Inches(0.7), Inches(6.5), Inches(11), Inches(0.4),
           "Full writeup with effort/dependency notes: BRAINSTORM.md", size=13, color=MUTED, italic=True)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 16 ==
+# ============================================================= SLIDE 18 ==
 s = new_slide()
 kicker_title(s, "Reference", "Specs at a Glance")
 rows = [
@@ -542,7 +652,7 @@ for i, (k, v) in enumerate(rows):
               color=BODY, anchor=MSO_ANCHOR.MIDDLE)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 17 ==
+# ============================================================= SLIDE 19 ==
 s = new_slide()
 kicker_title(s, "Resources", "Go Build Something")
 add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
@@ -555,7 +665,7 @@ add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
 ], size=19, gap=18)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 18 ==
+# ============================================================= SLIDE 20 ==
 s = new_slide()
 add_text(s, Inches(0.9), Inches(2.9), Inches(11.5), Inches(1.2),
           "Thank You", size=48, color=INK, bold=True)
