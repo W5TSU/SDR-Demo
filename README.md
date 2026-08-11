@@ -12,7 +12,8 @@ full-band-demo/   Standalone gr-osmosdr implementation of the same wideband
                   2m-band record/playback demo -- its own README, see below
 recordings/       Where captured IQ files land (empty until you run Demo 3)
 slides/           The talk deck: SDR_Demo.pptx (19 slides), plus build_deck.py
-                  that generated it and requirements.txt (python-pptx)
+                  that generated it, requirements.txt (python-pptx), and
+                  PRESENTER_NOTES.md -- the run-the-talk guide, see below
 README.md         This file — setup, legal notes, run order
 BRAINSTORM.md     Additional demo ideas beyond the ones built out here
 ```
@@ -23,6 +24,13 @@ editable Slides copy (Drive converts .pptx automatically — no Slides API
 access was needed to build it). Title and closing slides are credited to
 Mark Grennan, W5TSU. To regenerate after editing `build_deck.py`: `pip
 install -r slides/requirements.txt && python3 slides/build_deck.py`.
+
+The slides themselves are audience-facing only — no flowgraph filenames,
+stage directions, or "talking points" printed on screen. **Everything
+you need to actually run the talk (which flowgraph to launch when, what
+to say, timing estimates, and when a slide is safe to skip) is in
+`slides/PRESENTER_NOTES.md`** — a slide-by-side table of what's on
+screen next to what to do about it.
 
 All six flowgraphs were validated in this environment with GNU Radio 3.10.12
 (`grcc` compiles each one to Python with no errors). They use the **Soapy
