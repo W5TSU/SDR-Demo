@@ -582,8 +582,16 @@ footer(s); page_number(s, count(), TOTAL_SLIDES)
 
 # ============================================================= SLIDE 15 ==
 s = new_slide()
-kicker_title(s, "The Software, Revisited", "GNU Radio: What It Actually Is")
-add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
+kicker_title(s, "The Software, Revisited", "GNU Radio: What It Is, How It's Used")
+p1x = Inches(0.7); pw = Inches(5.7)
+panel1 = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, p1x, Inches(2.1), pw, Inches(4.5))
+panel1.adjustments[0] = 0.04
+panel1.fill.solid(); panel1.fill.fore_color.rgb = BG_ALT
+panel1.line.color.rgb = TEAL_DIM; panel1.line.width = Pt(1)
+panel1.shadow.inherit = False
+add_text(s, p1x + Inches(0.35), Inches(2.35), pw - Inches(0.7), Inches(0.4),
+          "What It Actually Is", size=19, color=TEAL, bold=True)
+add_bullets(s, p1x + Inches(0.35), Inches(2.85), pw - Inches(0.7), Inches(3.5), [
     "Started in 2001 (Eric Blossom); now stewarded by the GNU Radio "
     "Project and the GNU Radio Foundation.",
     "C++ underneath for real-time DSP performance; Python (and GNU Radio "
@@ -594,11 +602,26 @@ add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
     "Hundreds of built-in blocks -- filters, modulators, channel coding, "
     "synchronization -- plus a large ecosystem of out-of-tree (OOT) "
     "modules for specific protocols.",
-], size=19, gap=16)
+], size=15, gap=10)
+
+p2x = Inches(6.9)
+add_text(s, p2x + Inches(0.35), Inches(2.35), Inches(5.0), Inches(0.32),
+          "How to learn GNU-Radio Companion", size=19, color=TEAL, bold=True)
+link_tb = s.shapes.add_textbox(p2x + Inches(0.35), Inches(2.85), Inches(5.0), Inches(1.06))
+link_tf = link_tb.text_frame
+link_tf.word_wrap = True
+link_p = link_tf.paragraphs[0]
+link_r = link_p.add_run()
+link_r.text = "https://www.youtube.com/playlist?list=PLywxmTaHNUNyKmgF70q8q3QHYIw_LFbrX"
+link_r.font.size = Pt(15)
+link_r.font.name = FONT
+link_r.hyperlink.address = "https://www.youtube.com/playlist?list=PLywxmTaHNUNyKmgF70q8q3QHYIw_LFbrX"
 add_text(s, Inches(0.7), Inches(7.08), Inches(9), Inches(0.3),
           "Source: gnuradio.org -- GNU Radio Conference (GRCon) happens every year",
           size=10, color=MUTED, italic=True)
 page_number(s, count(), TOTAL_SLIDES)
+s.shapes.add_picture(str(ASSETS / "learn_gnuradio_youtube_thumb.png"),
+                      Inches(6.93), Inches(3.61), Inches(5.76), Inches(3.43))
 
 # ============================================================= SLIDE 16 ==
 s = new_slide()
@@ -647,20 +670,51 @@ page_number(s, count(), TOTAL_SLIDES)
 
 # ============================================================= SLIDE 17 ==
 s = new_slide()
-kicker_title(s, "Recap", "What Just Happened, Technically")
-add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
-    "One piece of hardware -- the same HackRF -- was an FM radio, a "
-    "spectrum analyzer, a repeater receiver, a wideband recorder, and a "
-    "voice transceiver, in the same 20 minutes.",
-    "The only thing that changed between demos was which flowgraph was "
-    "loaded -- no soldering, no new hardware.",
-    "The recording in Demo 3 wasn't a simulation of the 2m band -- it "
-    "was the actual RF, represented as numbers, played back as actual RF.",
-    "That's the whole idea of “software defined”: the radio is defined "
-    "by the software running on general-purpose hardware, not by "
-    "purpose-built circuitry.",
-], size=19, gap=16)
-footer(s); page_number(s, count(), TOTAL_SLIDES)
+kicker_title(s, "One Word, Three Meanings", "Three Kinds of Bandwidth")
+bw_panels = [
+    ("SDR (RF) Bandwidth", [
+        "Instantaneous bandwidth = sample rate itself -- spans -Fs/2 to "
+        "+Fs/2 around wherever you're tuned.",
+        "HackRF: up to 20 Msps -> up to 20 MHz of spectrum visible at "
+        "once.",
+        "Rule of thumb: trust only the center ~4/5 of that (\"Sean's 4/5 "
+        "rule\") -- the anti-alias filter rolls off near the edges.",
+    ]),
+    ("Interface Bandwidth (USB)", [
+        "A separate bottleneck: getting every sample off the SDR and "
+        "into the computer, in real time, without dropping any.",
+        "HackRF: USB 2.0 Hi-Speed. At 20 Msps complex 8-bit, that's "
+        "~320 Mbps -- already close to USB2's practical ceiling.",
+        "Exactly why hackrf_info warns about other devices sharing the "
+        "USB bus at high sample rates.",
+    ]),
+    ("Receive Bandwidth (What the Software Decodes)", [
+        "The RF capture and the channel actually being decoded are two "
+        "different numbers.",
+        "Demo 3 captured 6 MHz of the 2m band; one NBFM voice channel "
+        "is only ~16 kHz wide.",
+        "That gap is exactly the Filter/Resample block from \"Reading a "
+        "Flowgraph\" -- narrowing a wide capture down to one channel.",
+    ]),
+]
+bw_pw = Inches(3.83); bw_gap = Inches(0.2)
+bw_x = Inches(0.7)
+for heading, bullets in bw_panels:
+    panel = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, bw_x, Inches(2.1), bw_pw, Inches(4.5))
+    panel.adjustments[0] = 0.05
+    panel.fill.solid(); panel.fill.fore_color.rgb = BG_ALT
+    panel.line.color.rgb = TEAL_DIM; panel.line.width = Pt(1)
+    panel.shadow.inherit = False
+    add_text(s, bw_x + Inches(0.25), Inches(2.3), bw_pw - Inches(0.5), Inches(0.7),
+              heading, size=16, color=TEAL, bold=True)
+    add_bullets(s, bw_x + Inches(0.25), Inches(3.05), bw_pw - Inches(0.5), Inches(3.4),
+                bullets, size=13, gap=10)
+    bw_x += bw_pw + bw_gap
+add_text(s, Inches(0.7), Inches(7.08), Inches(11), Inches(0.3),
+          "Source: pysdr.org (Ch. 3, IQ Sampling -- sample rate = instantaneous "
+          "bandwidth, Nyquist, \"Sean's 4/5 rule\")",
+          size=10, color=MUTED, italic=True)
+page_number(s, count(), TOTAL_SLIDES)
 
 # ============================================================= SLIDE 18 ==
 s = new_slide()
