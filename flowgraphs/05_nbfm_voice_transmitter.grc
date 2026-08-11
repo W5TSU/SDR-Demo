@@ -52,8 +52,12 @@ blocks:
 - name: quad_rate
   id: variable
   parameters:
-    comment: Must be an integer multiple of audio_rate; output of analog.nbfm_tx
-    value: audio_rate * 8
+    comment: Must be an integer multiple of audio_rate. analog.nbfm_tx designs
+      its interpolation filter with pm_remez (Parks-McClellan), which is
+      numerically fragile at high interpolation factors -- audio_rate*8
+      (interp=8) throws "insufficient extremals -- cannot continue" on
+      construction. interp=4 tested clean; 2-6 all work, 8 fails.
+    value: audio_rate * 4
   states:
     bus_sink: false
     bus_source: false
