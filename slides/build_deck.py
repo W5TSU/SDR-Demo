@@ -342,8 +342,8 @@ footer(s); page_number(s, count(), TOTAL_SLIDES)
 
 # ============================================================== SLIDE 5 ==
 s = new_slide()
-kicker_title(s, "The Hardware", "HackRF One + Ham Handheld")
-# two panel layout
+kicker_title(s, "The Hardware", "HackRF One")
+# two panel layout: core specs vs. TX capabilities
 p1x = Inches(0.7); pw = Inches(5.7)
 panel1 = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, p1x, Inches(2.1), pw, Inches(4.5))
 panel1.adjustments[0] = 0.04
@@ -351,12 +351,12 @@ panel1.fill.solid(); panel1.fill.fore_color.rgb = BG_ALT
 panel1.line.color.rgb = TEAL_DIM; panel1.line.width = Pt(1)
 panel1.shadow.inherit = False
 add_text(s, p1x + Inches(0.35), Inches(2.35), pw - Inches(0.7), Inches(0.4),
-          "HackRF One", size=20, color=TEAL, bold=True)
+          "Core Specs", size=20, color=TEAL, bold=True)
 add_bullets(s, p1x + Inches(0.35), Inches(2.85), pw - Inches(0.7), Inches(3.5), [
     "1 MHz – 6 GHz tuning range",
-    "Up to 20 Msps, 8-bit ADC/DAC",
-    "Half-duplex (RX or TX, not both at once)",
-    "USB-powered, open source hardware",
+    "Up to 20 Msps, 8-bit quadrature ADC/DAC (8-bit I, 8-bit Q)",
+    "Half-duplex (RX or TX, never both at once)",
+    "Hi-Speed USB 2.0, USB-powered, open source hardware",
     "This talk: driven via SoapySDR from GNU Radio",
 ], size=16, gap=12)
 
@@ -367,14 +367,23 @@ panel2.fill.solid(); panel2.fill.fore_color.rgb = BG_ALT
 panel2.line.color.rgb = TEAL_DIM; panel2.line.width = Pt(1)
 panel2.shadow.inherit = False
 add_text(s, p2x + Inches(0.35), Inches(2.35), pw - Inches(0.7), Inches(0.4),
-          "Dual-Band Handheld (144/440)", size=20, color=TEAL, bold=True)
+          "TX Capabilities", size=20, color=TEAL, bold=True)
 add_bullets(s, p2x + Inches(0.35), Inches(2.85), pw - Inches(0.7), Inches(3.5), [
-    "Our “known-good” reference radio",
-    "2m (144-148 MHz) and 70cm (420-450 MHz)",
-    "Keys up so we can watch/hear the HackRF receive it",
-    "Receives our HackRF transmissions in the reverse demos",
-], size=16, gap=12)
-footer(s); page_number(s, count(), TOTAL_SLIDES)
+    "Two software-controlled TX gain stages -- no physical knobs: an "
+    "on/off RF amp (~+11 dB) and a VGA/IF gain stage, 0-47 dB in 1 dB "
+    "steps.",
+    "Max output power varies with frequency -- roughly +5 to +15 dBm "
+    "from 1 MHz-2.17 GHz, dropping to about 0-10 dBm up through 4 GHz. "
+    "Best performance is actually 2170-2740 MHz.",
+    "Tonight's TX demos default to just 10 dB of VGA gain -- comfortably "
+    "at the low end, per the \"minimum power necessary\" guidance.",
+    "No built-in per-band TX filtering -- it's a general-purpose "
+    "transmitter, so staying inside our allocated ham segments is on us.",
+], size=15, gap=10)
+add_text(s, Inches(0.7), Inches(7.08), Inches(9), Inches(0.3),
+          "Sources: hackrf.readthedocs.io, greatscottgadgets.com/hackrf/one",
+          size=10, color=MUTED, italic=True)
+page_number(s, count(), TOTAL_SLIDES)
 
 # ============================================================== SLIDE 6 ==
 s = new_slide()
