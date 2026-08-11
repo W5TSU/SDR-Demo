@@ -32,7 +32,7 @@ from gnuradio import eng_notation
 
 class two_m_playback(gr.top_block, Qt.QWidget):
 
-    def __init__(self, center_freq=146500000, in_file="/tmp/2m_capture.iq"):
+    def __init__(self, center_freq=146000000, in_file="/tmp/2m_capture.iq"):
         gr.top_block.__init__(self, "2M Band Playback", catch_exceptions=True)
         Qt.QWidget.__init__(self)
         self.setWindowTitle("2M Band Playback")
@@ -211,7 +211,7 @@ def argument_parser():
     description = 'Play back recorded 2M IQ file via HackRF'
     parser = ArgumentParser(description=description)
     parser.add_argument(
-        "--center-freq", dest="center_freq", type=eng_float, default=eng_notation.num_to_str(float(146500000)),
+        "--center-freq", dest="center_freq", type=eng_float, default=eng_notation.num_to_str(float(146000000)),
         help="Set Center Frequency (Hz) [default=%(default)r]")
     parser.add_argument(
         "--in-file", dest="in_file", type=str, default="/tmp/2m_capture.iq",

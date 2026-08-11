@@ -6,7 +6,7 @@ options:
     cmake_opt: ''
     comment: ''
     copyright: ''
-    description: Record 144-149 MHz IQ data using HackRF
+    description: Record the 2m band (144.0-148.0 MHz) with margin using HackRF
     gen_cmake: 'On'
     gen_linking: dynamic
     generate_options: qt_gui
@@ -36,7 +36,10 @@ blocks:
 - name: center_freq
   id: variable_qtgui_range
   parameters:
-    comment: ''
+    comment: '5 Msps centered here covers 143.5-148.5 MHz -- symmetric 0.5 MHz
+      margin on both sides of the real 2m band (144.0-148.0), clear of the
+      Nyquist-edge filter rolloff that a 146.5 MHz center (0 MHz margin at
+      144.0, 1 MHz wasted above 148.0) used to sit right on top of.'
     gui_hint: 0,0,1,1
     label: Center Frequency (Hz)
     min_len: '200'
@@ -45,7 +48,7 @@ blocks:
     start: '144000000'
     step: '1000'
     stop: '149000000'
-    value: '146500000'
+    value: '146000000'
     widget: counter_slider
   states:
     bus_sink: false

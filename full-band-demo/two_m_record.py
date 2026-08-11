@@ -7,7 +7,7 @@
 # GNU Radio Python Flow Graph
 # Title: 2M Band Recorder
 # Author: W5TSU
-# Description: Record 144-149 MHz IQ data using HackRF
+# Description: Record the 2m band (144.0-148.0 MHz) with margin using HackRF
 # GNU Radio version: 3.10.12.0
 
 from PyQt5 import Qt
@@ -71,7 +71,7 @@ class two_m_record(gr.top_block, Qt.QWidget):
         self.record_time = record_time = 30
         self.out_file = out_file = "/tmp/2m_capture.iq"
         self.lna_gain = lna_gain = 32
-        self.center_freq = center_freq = 146500000
+        self.center_freq = center_freq = 146000000
 
         ##################################################
         # Blocks
@@ -98,7 +98,7 @@ class two_m_record(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(1, 2):
             self.top_grid_layout.setColumnStretch(c, 1)
-        self._center_freq_range = qtgui.Range(144000000, 149000000, 1000, 146500000, 200)
+        self._center_freq_range = qtgui.Range(144000000, 149000000, 1000, 146000000, 200)
         self._center_freq_win = qtgui.RangeWidget(self._center_freq_range, self.set_center_freq, "Center Frequency (Hz)", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_grid_layout.addWidget(self._center_freq_win, 0, 0, 1, 1)
         for r in range(0, 1):

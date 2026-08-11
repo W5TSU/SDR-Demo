@@ -4,11 +4,11 @@ Mark Grennan  •  W5TSU
 
 ## 2M Band IQ Record/Playback Demo
 
-This demonstration records the entire radio 2-meter (144-149) radio spectrum to a "raw" data file.
+This demonstration records the entire amateur 2-meter band (144.0-148.0 MHz) to a "raw" data file.
 
 Think of the radio band as a pond and all the transmissions are rocks throne into it.  Think of the raw data as a video of the pond.  Each frame of the video documents all the waves mixed together.  
 
-The software "[GNU Radio](https://www.gnuradio.org/)" is used to script (flow graphs) the recording and playback of everything between two frequencies using a [HackRF One](https://greatscottgadgets.com/hackrf/one/).  A full 5 MHz of spectrum (raw data) is written to the file /tmp/2m_capture.iq.  
+The software "[GNU Radio](https://www.gnuradio.org/)" is used to script (flow graphs) the recording and playback of everything between two frequencies using a [HackRF One](https://greatscottgadgets.com/hackrf/one/).  A full 5 MHz of spectrum, centered at 146.0 MHz (143.5-148.5 MHz -- a symmetric 0.5 MHz margin on each side of the real 144.0-148.0 MHz band), is written to the file /tmp/2m_capture.iq. Centering here instead of at 146.5 MHz keeps the band's low edge, where CW/SSB weak-signal work happens, off the Nyquist edge of the capture (where anti-alias filter rolloff is worst) instead of sitting exactly on it.
 
 ## Requirements
 
@@ -21,7 +21,7 @@ The software "[GNU Radio](https://www.gnuradio.org/)" is used to script (flow gr
 
 | File | Purpose |
 |------|---------|
-| `2m_record.grc` | GRC flowgraph — receive 144–149 MHz and write raw IQ to file |
+| `2m_record.grc` | GRC flowgraph — receive 143.5–148.5 MHz and write raw IQ to file |
 | `two_m_record.py` | Python script **generated** from `2m_record.grc` by GNU Radio Companion |
 | `2m_playback.grc` | GRC flowgraph — read the IQ file and retransmit on the same band |
 | `two_m_playback.py` | Python script **generated** from `2m_playback.grc` by GNU Radio Companion |
@@ -42,7 +42,9 @@ The controls (variables) for the program are in boxes across the top of the grap
 
 **GUI controls:**
 
-- **Center Frequency** — tune within 144–149 MHz (default 146.5 MHz)
+- **Center Frequency** — tune within 144–149 MHz (default 146.0 MHz, giving a
+  symmetric 0.5 MHz margin around the real 144.0-148.0 MHz band at the
+  default 5 Msps span)
 - **LNA Gain** — HackRF IF/LNA gain, 0–40 dB in 8 dB steps (default 32 dB)
 - **VGA Gain** — HackRF baseband gain, 0–62 dB in 2 dB steps (default 40 dB)
 - **Record Time** — duration in seconds, 1–600 (default 30). Recording stops automatically after this many seconds; the spectrum and waterfall displays continue running so you can keep monitoring the band.
@@ -66,7 +68,7 @@ python3 two_m_playback.py [--in-file FILE] [--center-freq FREQ]
 | Option | Default | Description |
 |--------|---------|-------------|
 | `--in-file FILE` | `/tmp/2m_capture.iq` | Path to the IQ file to transmit |
-| `--center-freq FREQ` | `146500000` | TX center frequency in Hz; accepts engineering notation (`146.52M`) |
+| `--center-freq FREQ` | `146000000` | TX center frequency in Hz; accepts engineering notation (`146.52M`) |
 
 Examples:
 
@@ -215,7 +217,7 @@ The two Python scripts share three variables that **must be identical** for a re
 | Variable      | Value                  | Used in record                                               | Used in playback                                             |
 | ------------- | ---------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | `samp_rate`   | `5000000`              | Sets the HackRF ADC rate and the file write rate             | Sets the HackRF DAC rate and must match the file's sample rate |
-| `center_freq` | `146500000`            | Initial hardware tune point; GUI slider calls `osmosdr_source_0.set_center_freq()` live | Initial hardware tune point, set via `--center-freq` (no GUI slider in this flowgraph); retuning after launch requires calling `set_center_freq()` yourself or editing the script |
+| `center_freq` | `146000000`            | Initial hardware tune point; GUI slider calls `osmosdr_source_0.set_center_freq()` live | Initial hardware tune point, set via `--center-freq` (no GUI slider in this flowgraph); retuning after launch requires calling `set_center_freq()` yourself or editing the script |
 | file path     | `"/tmp/2m_capture.iq"` | `out_file` — path passed to `blocks.file_sink`               | `in_file` — path passed to `blocks.file_source`              |
 
 `samp_rate` is the most critical: the file is a raw stream of samples with no header, so the playback script has no way to detect the recorded rate. A mismatch compresses or stretches the signal in time and shifts all frequencies proportionally.

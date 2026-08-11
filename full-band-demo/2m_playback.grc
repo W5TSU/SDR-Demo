@@ -37,12 +37,14 @@ blocks:
   id: parameter
   parameters:
     alias: ''
-    comment: ''
+    comment: Must match the recording's center_freq -- 146.0 MHz keeps the 5
+      Msps span (143.5-148.5 MHz) symmetric around the real 2m band
+      (144.0-148.0 MHz) instead of sitting right on the Nyquist edge.
     hide: none
     label: Center Frequency (Hz)
     short_id: ''
     type: eng_float
-    value: '146500000'
+    value: '146000000'
   states:
     bus_sink: false
     bus_source: false
