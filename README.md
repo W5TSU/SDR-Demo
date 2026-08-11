@@ -11,7 +11,7 @@ flowgraphs/       6 working GNU Radio Companion (.grc) flowgraphs, GRC 3.10 form
 full-band-demo/   Standalone gr-osmosdr implementation of the same wideband
                   2m-band record/playback demo -- its own README, see below
 recordings/       Where captured IQ files land (empty until you run Demo 3)
-slides/           The talk deck: SDR_Demo.pptx (19 slides), plus build_deck.py
+slides/           The talk deck: SDR_Demo.pptx (21 slides), plus build_deck.py
                   that generated it, requirements.txt (python-pptx), and
                   PRESENTER_NOTES.md -- the run-the-talk guide, see below
 README.md         This file — setup, legal notes, run order

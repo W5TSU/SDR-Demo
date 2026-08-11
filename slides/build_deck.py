@@ -6,6 +6,8 @@ Google Slides" and it converts to a native, editable Slides file).
 Run:  .venv/bin/python3 build_deck.py
 """
 
+from pathlib import Path
+
 from pptx import Presentation
 from pptx.util import Inches, Pt, Emu
 from pptx.dml.color import RGBColor
@@ -13,6 +15,8 @@ from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from pptx.enum.shapes import MSO_SHAPE
 from pptx.oxml.ns import qn
 import copy
+
+ASSETS = Path(__file__).resolve().parent / "assets"
 
 # ---------------------------------------------------------------- palette --
 BG = RGBColor(0x0A, 0x19, 0x29)  # deep navy, "waterfall" background
@@ -160,7 +164,7 @@ def pill(slide, x, y, w, h, text, fill=TEAL_DIM, text_color=TEAL, size=13):
     return shp
 
 
-TOTAL_SLIDES = 19
+TOTAL_SLIDES = 21
 _n = [0]
 
 
@@ -183,7 +187,7 @@ add_text(s, Inches(0.9), Inches(6.6), Inches(8), Inches(0.4),
           "Mark Grennan  •  W5TSU  •  " + "2026",
           size=14, color=MUTED)
 
-# ============================================================== SLIDE 1B ==
+# ============================================================== SLIDE 2 ==
 s = new_slide()
 kicker_title(s, "Before We Touch The Radio", "The Airwaves: 3 Hz – 3 THz")
 add_text(s, Inches(0.7), Inches(1.95), Inches(11.9), Inches(0.75),
@@ -239,7 +243,7 @@ add_text(s, Inches(0.7), Inches(7.08), Inches(9), Inches(0.3),
           size=10, color=MUTED, italic=True)
 page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================== SLIDE 1C ==
+# ============================================================== SLIDE 3 ==
 s = new_slide()
 kicker_title(s, "Before We Touch The Radio",
              "Every Signal Arrives Already Mixed With Noise")
@@ -425,6 +429,8 @@ for i, item in enumerate(chain):
         arrow.line.fill.background(); arrow.shadow.inherit = False
     cy += Inches(0.78)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
+s.shapes.add_picture(str(ASSETS / "gnuradio_logo.png"),
+                      Inches(8.51), Inches(0.24), Inches(3.66), Inches(1.83))
 
 # ============================================================== SLIDE 7 ==
 s = new_slide()
@@ -463,6 +469,8 @@ for i, item in enumerate(items):
         arrow.line.fill.background(); arrow.shadow.inherit = False
     bx += bw + gap_w
 footer(s); page_number(s, count(), TOTAL_SLIDES)
+s.shapes.add_picture(str(ASSETS / "grc_flowgraph_screenshot.jpg"),
+                      Inches(6.94), Inches(0.19), Inches(5.20), Inches(1.64))
 
 # ============================================================== SLIDE 8 ==
 s = new_slide()
@@ -491,7 +499,7 @@ add_bullets(s, Inches(0.7), Inches(2.5), Inches(11.7), Inches(3.8), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================== SLIDE 10 ==
+# ============================================================= SLIDE 10 ==
 s = new_slide()
 kicker_title(s, "Demo 2", "Tunable NBFM Voice Receiver", kicker_color=TEAL)
 pill(s, Inches(0.7), Inches(1.85), Inches(1.5), Inches(0.35), "RECEIVE ONLY", fill=TEAL_DIM, text_color=TEAL, size=12)
@@ -505,43 +513,6 @@ add_bullets(s, Inches(0.7), Inches(2.5), Inches(11.7), Inches(3.8), [
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
 # ============================================================= SLIDE 11 ==
-s = new_slide()
-add_text(s, Inches(0.7), Inches(0.5), Inches(11.9), Inches(0.4),
-          "DEMO 3 · THE HEADLINE DEMO".upper(), size=14, color=AMBER, bold=True)
-add_text(s, Inches(0.7), Inches(0.86), Inches(11.9), Inches(1.0),
-          "Record the Entire 2m Band", size=34, color=INK, bold=True)
-accent_bar(s, y=Inches(1.7), color=AMBER)
-add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
-    "Tunes to 146.0 MHz center at 6 Msps -- covers 143.0 to 149.0 MHz, the "
-    "whole 144-148 MHz 2m band with margin to spare.",
-    ("Not one channel -- every signal on the entire band, captured at once",
-     ["Raw IQ, written to a self-describing file (sample rate + center "
-      "frequency saved in the header)"]),
-    "A single recording captures everything transmitted on the band "
-    "during that window -- roughly 2.9 GB per minute at this sample rate.",
-], size=19, gap=16)
-footer(s); page_number(s, count(), TOTAL_SLIDES)
-
-# ============================================================= SLIDE 12 ==
-s = new_slide()
-add_text(s, Inches(0.7), Inches(0.5), Inches(11.9), Inches(0.4),
-          "DEMO 3B · THE PAYOFF".upper(), size=14, color=AMBER, bold=True)
-add_text(s, Inches(0.7), Inches(0.86), Inches(11.9), Inches(1.0),
-          "...And Play It Back Over the Air", size=34, color=INK, bold=True)
-accent_bar(s, y=Inches(1.7), color=AMBER)
-pill(s, Inches(0.7), Inches(1.9), Inches(2.3), Inches(0.4), "TRANSMITS — SEE NEXT SLIDE",
-     fill=AMBER_DIM, text_color=AMBER, size=12)
-add_bullets(s, Inches(0.7), Inches(2.55), Inches(11.7), Inches(4.0), [
-    "Reads the file back and feeds it straight into the HackRF's "
-    "transmitter -- the exact recorded band reappears on the air.",
-    "The waterfall reproduces exactly what was captured; the handheld "
-    "hears the same signal a second time, live.",
-    "This is the moment that makes SDR click: the recording *is* the "
-    "radio signal -- numbers on disk, transmitted back as RF.",
-], size=19, gap=16)
-footer(s); page_number(s, count(), TOTAL_SLIDES)
-
-# ============================================================= SLIDE 13 ==
 s = new_slide(bg=RGBColor(0x1A, 0x14, 0x06))
 add_text(s, Inches(0.7), Inches(0.55), Inches(11.9), Inches(0.4),
           "⚠  BEFORE WE TRANSMIT", size=16, color=AMBER, bold=True)
@@ -561,6 +532,43 @@ add_bullets(s, Inches(0.7), Inches(2.25), Inches(11.7), Inches(4.5), [
 ], size=18, color=RGBColor(0xF3, 0xE3, 0xC7), gap=14)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
+# ============================================================= SLIDE 12 ==
+s = new_slide()
+add_text(s, Inches(0.7), Inches(0.5), Inches(11.9), Inches(0.4),
+          "DEMO 3 · THE HEADLINE DEMO".upper(), size=14, color=AMBER, bold=True)
+add_text(s, Inches(0.7), Inches(0.86), Inches(11.9), Inches(1.0),
+          "Record the Entire 2m Band", size=34, color=INK, bold=True)
+accent_bar(s, y=Inches(1.7), color=AMBER)
+add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
+    "Tunes to 146.0 MHz center at 6 Msps -- covers 143.0 to 149.0 MHz, the "
+    "whole 144-148 MHz 2m band with margin to spare.",
+    ("Not one channel -- every signal on the entire band, captured at once",
+     ["Raw IQ, written to a self-describing file (sample rate + center "
+      "frequency saved in the header)"]),
+    "A single recording captures everything transmitted on the band "
+    "during that window -- roughly 2.9 GB per minute at this sample rate.",
+], size=19, gap=16)
+footer(s); page_number(s, count(), TOTAL_SLIDES)
+
+# ============================================================= SLIDE 13 ==
+s = new_slide()
+add_text(s, Inches(0.7), Inches(0.5), Inches(11.9), Inches(0.4),
+          "DEMO 3B · THE PAYOFF".upper(), size=14, color=AMBER, bold=True)
+add_text(s, Inches(0.7), Inches(0.86), Inches(11.9), Inches(1.0),
+          "...And Play It Back Over the Air", size=34, color=INK, bold=True)
+accent_bar(s, y=Inches(1.7), color=AMBER)
+pill(s, Inches(0.7), Inches(1.9), Inches(2.3), Inches(0.4), "TRANSMITS — SEE NEXT SLIDE",
+     fill=AMBER_DIM, text_color=AMBER, size=12)
+add_bullets(s, Inches(0.7), Inches(2.55), Inches(11.7), Inches(4.0), [
+    "Reads the file back and feeds it straight into the HackRF's "
+    "transmitter -- the exact recorded band reappears on the air.",
+    "The waterfall reproduces exactly what was captured; the handheld "
+    "hears the same signal a second time, live.",
+    "This is the moment that makes SDR click: the recording *is* the "
+    "radio signal -- numbers on disk, transmitted back as RF.",
+], size=19, gap=16)
+footer(s); page_number(s, count(), TOTAL_SLIDES)
+
 # ============================================================= SLIDE 14 ==
 s = new_slide()
 kicker_title(s, "Demo 4  ·  Optional", "NBFM Voice Transmitter", kicker_color=AMBER)
@@ -573,6 +581,99 @@ add_bullets(s, Inches(0.7), Inches(2.5), Inches(11.7), Inches(3.8), [
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
 # ============================================================= SLIDE 15 ==
+s = new_slide()
+kicker_title(s, "The Software, Revisited", "GNU Radio: What It Is, How It's Used")
+p1x = Inches(0.7); pw = Inches(5.7)
+panel1 = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, p1x, Inches(2.1), pw, Inches(4.5))
+panel1.adjustments[0] = 0.04
+panel1.fill.solid(); panel1.fill.fore_color.rgb = BG_ALT
+panel1.line.color.rgb = TEAL_DIM; panel1.line.width = Pt(1)
+panel1.shadow.inherit = False
+add_text(s, p1x + Inches(0.35), Inches(2.35), pw - Inches(0.7), Inches(0.4),
+          "What It Actually Is", size=19, color=TEAL, bold=True)
+add_bullets(s, p1x + Inches(0.35), Inches(2.85), pw - Inches(0.7), Inches(3.5), [
+    "Started in 2001 (Eric Blossom); now stewarded by the GNU Radio "
+    "Project and the GNU Radio Foundation.",
+    "C++ underneath for real-time DSP performance; Python (and GNU Radio "
+    "Companion) on top for building and scripting flowgraphs.",
+    "A scheduler manages sample buffers between blocks -- the same "
+    "runtime whether the samples are live from a HackRF or read back "
+    "from a file.",
+    "Hundreds of built-in blocks -- filters, modulators, channel coding, "
+    "synchronization -- plus a large ecosystem of out-of-tree (OOT) "
+    "modules for specific protocols.",
+], size=15, gap=10)
+
+p2x = Inches(6.9)
+panel2 = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, p2x, Inches(2.1), pw, Inches(4.5))
+panel2.adjustments[0] = 0.04
+panel2.fill.solid(); panel2.fill.fore_color.rgb = BG_ALT
+panel2.line.color.rgb = TEAL_DIM; panel2.line.width = Pt(1)
+panel2.shadow.inherit = False
+add_text(s, p2x + Inches(0.35), Inches(2.35), pw - Inches(0.7), Inches(0.4),
+          "How We Used It Tonight", size=19, color=TEAL, bold=True)
+add_bullets(s, p2x + Inches(0.35), Inches(2.85), pw - Inches(0.7), Inches(3.5), [
+    "Every demo was the same runtime, different flowgraph -- GRC just "
+    "generates the Python self.connect(...) calls behind those block "
+    "diagrams.",
+    "SoapySDR blocks are what actually talked to the HackRF -- swap that "
+    "one block and the same flowgraph can drive different hardware.",
+    "Nothing here was compiled or flashed -- editing a flowgraph and "
+    "rerunning it is the entire iteration loop.",
+    "The .grc files themselves are plain text -- that's why this whole "
+    "demo kit lives in a git repo.",
+], size=15, gap=10)
+add_text(s, Inches(0.7), Inches(7.08), Inches(9), Inches(0.3),
+          "Source: gnuradio.org -- GNU Radio Conference (GRCon) happens every year",
+          size=10, color=MUTED, italic=True)
+page_number(s, count(), TOTAL_SLIDES)
+
+# ============================================================= SLIDE 16 ==
+s = new_slide()
+kicker_title(s, "Beyond Tonight's Setup", "Connecting GNU Radio to Other Radios")
+p1x = Inches(0.7); pw = Inches(5.7)
+panel1 = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, p1x, Inches(2.1), pw, Inches(4.5))
+panel1.adjustments[0] = 0.04
+panel1.fill.solid(); panel1.fill.fore_color.rgb = BG_ALT
+panel1.line.color.rgb = TEAL_DIM; panel1.line.width = Pt(1)
+panel1.shadow.inherit = False
+add_text(s, p1x + Inches(0.35), Inches(2.35), pw - Inches(0.7), Inches(0.4),
+          "Other SDRs", size=19, color=TEAL, bold=True)
+add_bullets(s, p1x + Inches(0.35), Inches(2.85), pw - Inches(0.7), Inches(3.5), [
+    "Same GRC blocks, different hardware -- SoapySDR supports RTL-SDR, "
+    "LimeSDR, PlutoSDR, Airspy, SDRplay, and more through one common "
+    "driver API.",
+    "USRP hardware typically goes through UHD instead -- GNU Radio ships "
+    "dedicated UHD blocks for it.",
+    "Swapping hardware is usually a one-block change in the flowgraph, "
+    "not a redesign.",
+], size=16, gap=12)
+
+p2x = Inches(6.9)
+panel2 = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, p2x, Inches(2.1), pw, Inches(4.5))
+panel2.adjustments[0] = 0.04
+panel2.fill.solid(); panel2.fill.fore_color.rgb = BG_ALT
+panel2.line.color.rgb = TEAL_DIM; panel2.line.width = Pt(1)
+panel2.shadow.inherit = False
+add_text(s, p2x + Inches(0.35), Inches(2.35), pw - Inches(0.7), Inches(0.4),
+          "Analog / Non-SDR Radios", size=19, color=TEAL, bold=True)
+add_bullets(s, p2x + Inches(0.35), Inches(2.85), pw - Inches(0.7), Inches(3.5), [
+    "Audio interface: a USB sound card wired to a radio's mic/speaker "
+    "(or data) port runs digital modes -- APRS, PSK31, and more -- "
+    "through a normal transceiver, no RF-direct hardware needed.",
+    "Rig control (CAT): Hamlib-based blocks let a flowgraph key PTT and "
+    "set frequency on a physical radio over serial/USB.",
+    "Direct RF coupling: exactly what tonight's demo did -- the SDR "
+    "transmits or receives over the air, and the other radio just needs "
+    "an antenna.",
+], size=16, gap=12)
+add_text(s, Inches(0.7), Inches(7.08), Inches(11), Inches(0.3),
+          "Tonight only used one SDR and one handheld over RF -- the same tools "
+          "bridge to almost anything with an antenna or an audio jack.",
+          size=13, color=MUTED, italic=True)
+page_number(s, count(), TOTAL_SLIDES)
+
+# ============================================================= SLIDE 17 ==
 s = new_slide()
 kicker_title(s, "Recap", "What Just Happened, Technically")
 add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
@@ -589,7 +690,7 @@ add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 16 ==
+# ============================================================= SLIDE 18 ==
 s = new_slide()
 kicker_title(s, "Where This Goes Next", "More Demo Ideas")
 left_items = [
@@ -612,7 +713,7 @@ add_text(s, Inches(0.7), Inches(6.5), Inches(11), Inches(0.4),
           "Full writeup with effort/dependency notes: BRAINSTORM.md", size=13, color=MUTED, italic=True)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 17 ==
+# ============================================================= SLIDE 19 ==
 s = new_slide()
 kicker_title(s, "Reference", "Specs at a Glance")
 rows = [
@@ -636,7 +737,7 @@ for i, (k, v) in enumerate(rows):
               color=BODY, anchor=MSO_ANCHOR.MIDDLE)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 18 ==
+# ============================================================= SLIDE 20 ==
 s = new_slide()
 kicker_title(s, "Resources", "Go Build Something")
 add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
@@ -649,7 +750,7 @@ add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
 ], size=19, gap=18)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 19 ==
+# ============================================================= SLIDE 21 ==
 s = new_slide()
 add_text(s, Inches(0.9), Inches(2.9), Inches(11.5), Inches(1.2),
           "Thank You", size=48, color=INK, bold=True)
