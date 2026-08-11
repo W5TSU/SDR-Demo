@@ -160,7 +160,7 @@ def pill(slide, x, y, w, h, text, fill=TEAL_DIM, text_color=TEAL, size=13):
     return shp
 
 
-TOTAL_SLIDES = 20
+TOTAL_SLIDES = 19
 _n = [0]
 
 
@@ -342,21 +342,6 @@ footer(s); page_number(s, count(), TOTAL_SLIDES)
 
 # ============================================================== SLIDE 5 ==
 s = new_slide()
-kicker_title(s, "Why It Matters", "One Radio, Many Radios")
-add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
-    ("Flexibility", ["A ham repeater receiver, a broadcast FM receiver, and a "
-                      "wideband recorder are all just different flowgraphs on the same box."]),
-    ("Access", ["A $300 HackRF + a laptop gets a student or new ham hands-on "
-                 "with RF/DSP concepts that used to need a rack of lab gear."]),
-    ("Prototyping speed", ["Try an idea by dragging blocks in GNU Radio Companion "
-                             "instead of designing a circuit board."]),
-    ("It's how modern radio actually works", ["Cell networks, WiFi, and most "
-        "new ham/commercial gear are SDR under the hood already."]),
-], size=19, gap=18)
-footer(s); page_number(s, count(), TOTAL_SLIDES)
-
-# ============================================================== SLIDE 6 ==
-s = new_slide()
 kicker_title(s, "The Hardware", "HackRF One + Ham Handheld")
 # two panel layout
 p1x = Inches(0.7); pw = Inches(5.7)
@@ -391,7 +376,7 @@ add_bullets(s, p2x + Inches(0.35), Inches(2.85), pw - Inches(0.7), Inches(3.5), 
 ], size=16, gap=12)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================== SLIDE 7 ==
+# ============================================================== SLIDE 6 ==
 s = new_slide()
 kicker_title(s, "The Software", "GNU Radio + GNU Radio Companion")
 add_bullets(s, Inches(0.7), Inches(2.1), Inches(6.7), Inches(4.5), [
@@ -432,7 +417,7 @@ for i, item in enumerate(chain):
     cy += Inches(0.78)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================== SLIDE 8 ==
+# ============================================================== SLIDE 7 ==
 s = new_slide()
 kicker_title(s, "Core Concept", "Reading a Flowgraph")
 add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(2.0), [
@@ -470,7 +455,7 @@ for i, item in enumerate(items):
     bx += bw + gap_w
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================== SLIDE 9 ==
+# ============================================================== SLIDE 8 ==
 s = new_slide()
 kicker_title(s, "Demo 0  ·  Icebreaker", "FM Broadcast Receiver", kicker_color=MUTED)
 pill(s, Inches(0.7), Inches(1.85), Inches(1.5), Inches(0.35), "RECEIVE ONLY", fill=TEAL_DIM, text_color=TEAL, size=12)
@@ -484,7 +469,7 @@ add_bullets(s, Inches(0.7), Inches(2.5), Inches(11.7), Inches(3.6), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================== SLIDE 10 ==
+# ============================================================== SLIDE 9 ==
 s = new_slide()
 kicker_title(s, "Demo 1", "Live Spectrum & Waterfall", kicker_color=TEAL)
 pill(s, Inches(0.7), Inches(1.85), Inches(1.5), Inches(0.35), "RECEIVE ONLY", fill=TEAL_DIM, text_color=TEAL, size=12)
@@ -499,7 +484,7 @@ add_bullets(s, Inches(0.7), Inches(2.5), Inches(11.7), Inches(3.8), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================== SLIDE 11 ==
+# ============================================================== SLIDE 10 ==
 s = new_slide()
 kicker_title(s, "Demo 2", "Tunable NBFM Voice Receiver", kicker_color=TEAL)
 pill(s, Inches(0.7), Inches(1.85), Inches(1.5), Inches(0.35), "RECEIVE ONLY", fill=TEAL_DIM, text_color=TEAL, size=12)
@@ -514,7 +499,7 @@ add_bullets(s, Inches(0.7), Inches(2.5), Inches(11.7), Inches(3.8), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 12 ==
+# ============================================================= SLIDE 11 ==
 s = new_slide()
 add_text(s, Inches(0.7), Inches(0.5), Inches(11.9), Inches(0.4),
           "DEMO 3 · THE HEADLINE DEMO".upper(), size=14, color=AMBER, bold=True)
@@ -533,7 +518,7 @@ add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 13 ==
+# ============================================================= SLIDE 12 ==
 s = new_slide()
 add_text(s, Inches(0.7), Inches(0.5), Inches(11.9), Inches(0.4),
           "DEMO 3B · THE PAYOFF".upper(), size=14, color=AMBER, bold=True)
@@ -553,7 +538,7 @@ add_bullets(s, Inches(0.7), Inches(2.55), Inches(11.7), Inches(4.0), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 14 ==
+# ============================================================= SLIDE 13 ==
 s = new_slide(bg=RGBColor(0x1A, 0x14, 0x06))
 add_text(s, Inches(0.7), Inches(0.55), Inches(11.9), Inches(0.4),
           "⚠  BEFORE WE TRANSMIT", size=16, color=AMBER, bold=True)
@@ -573,7 +558,7 @@ add_bullets(s, Inches(0.7), Inches(2.25), Inches(11.7), Inches(4.5), [
 ], size=18, color=RGBColor(0xF3, 0xE3, 0xC7), gap=14)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 15 ==
+# ============================================================= SLIDE 14 ==
 s = new_slide()
 kicker_title(s, "Demo 4  ·  Optional", "NBFM Voice Transmitter", kicker_color=AMBER)
 pill(s, Inches(0.7), Inches(1.85), Inches(2.5), Inches(0.35), "TRANSMITS — CONTROL OP REQUIRED", fill=AMBER_DIM, text_color=AMBER, size=12)
@@ -588,7 +573,7 @@ add_bullets(s, Inches(0.7), Inches(2.5), Inches(11.7), Inches(3.8), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 16 ==
+# ============================================================= SLIDE 15 ==
 s = new_slide()
 kicker_title(s, "Recap", "What Just Happened, Technically")
 add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
@@ -605,7 +590,7 @@ add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 17 ==
+# ============================================================= SLIDE 16 ==
 s = new_slide()
 kicker_title(s, "Where This Goes Next", "More Demo Ideas")
 left_items = [
@@ -628,7 +613,7 @@ add_text(s, Inches(0.7), Inches(6.5), Inches(11), Inches(0.4),
           "Full writeup with effort/dependency notes: BRAINSTORM.md", size=13, color=MUTED, italic=True)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 18 ==
+# ============================================================= SLIDE 17 ==
 s = new_slide()
 kicker_title(s, "Reference", "Specs at a Glance")
 rows = [
@@ -652,7 +637,7 @@ for i, (k, v) in enumerate(rows):
               color=BODY, anchor=MSO_ANCHOR.MIDDLE)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 19 ==
+# ============================================================= SLIDE 18 ==
 s = new_slide()
 kicker_title(s, "Resources", "Go Build Something")
 add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
@@ -665,7 +650,7 @@ add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
 ], size=19, gap=18)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 20 ==
+# ============================================================= SLIDE 19 ==
 s = new_slide()
 add_text(s, Inches(0.9), Inches(2.9), Inches(11.5), Inches(1.2),
           "Thank You", size=48, color=INK, bold=True)
