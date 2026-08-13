@@ -164,7 +164,7 @@ def pill(slide, x, y, w, h, text, fill=TEAL_DIM, text_color=TEAL, size=13):
     return shp
 
 
-TOTAL_SLIDES = 21
+TOTAL_SLIDES = 22
 _n = [0]
 
 
@@ -777,6 +777,55 @@ add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
 # ============================================================= SLIDE 21 ==
+s = new_slide()
+kicker_title(s, "Software Defined Radio Requires Software", "Learn the DSP, in Python: pysdr.org")
+add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(1.15), [
+    "Everything tonight ran through GNU Radio Companion's drag-and-drop "
+    "canvas -- pysdr.org teaches the same DSP by writing the Python "
+    "(NumPy/SciPy) yourself, concept by concept.",
+    "Free, written for engineers, no textbook required first -- the same "
+    "site cited earlier tonight for noise (slide 3) and bandwidth/Nyquist "
+    "(slide 17).",
+], size=16, gap=10)
+# horizontal roadmap: FFT -> Filters -> Digital Modulation -> RX/TX in Python
+py_dy = Inches(3.7)
+py_items = ["Fourier\nTransforms", "Filters", "Digital\nModulation", "RX & TX\nin Python"]
+py_bw = Inches(2.55); py_gap = Inches(0.55)
+py_total_w = py_bw * len(py_items) + py_gap * (len(py_items) - 1)
+py_bx = (SLIDE_W - py_total_w) / 2
+for i, item in enumerate(py_items):
+    chip = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, py_bx, py_dy, py_bw, Inches(1.1))
+    chip.adjustments[0] = 0.12
+    chip.fill.solid()
+    chip.fill.fore_color.rgb = TEAL_DIM if i in (0, 3) else BG_ALT
+    chip.line.color.rgb = TEAL
+    chip.line.width = Pt(1.25)
+    chip.shadow.inherit = False
+    tf = chip.text_frame; tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+    p = tf.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
+    r = p.add_run(); r.text = item
+    r.font.size = Pt(15); r.font.bold = True; r.font.color.rgb = INK; r.font.name = FONT
+    if i < len(py_items) - 1:
+        arrow = s.shapes.add_shape(MSO_SHAPE.RIGHT_ARROW, py_bx + py_bw, py_dy + Inches(0.38), py_gap, Inches(0.34))
+        arrow.fill.solid(); arrow.fill.fore_color.rgb = TEAL
+        arrow.line.fill.background(); arrow.shadow.inherit = False
+    py_bx += py_bw + py_gap
+add_bullets(s, Inches(0.7), Inches(5.15), Inches(11.7), Inches(1.6), [
+    "Fourier Transforms: the FFT math behind every spectrum plot and "
+    "waterfall shown tonight.",
+    "Filters: the same low-pass/channel-select filtering every flowgraph "
+    "tonight used, written out by hand.",
+    "Digital Modulation: ASK, PSK, QAM, FSK -- how bits become RF, from "
+    "first principles.",
+    "RX & TX in Python: PlutoSDR, USRP, RTL-SDR, and HackRF, each driven "
+    "directly from a Python script -- no GRC canvas required.",
+], size=13, gap=4)
+add_text(s, Inches(0.7), Inches(7.08), Inches(9), Inches(0.3),
+          "pysdr.org -- \"A Guide to SDR and DSP using Python\"",
+          size=10, color=MUTED, italic=True)
+page_number(s, count(), TOTAL_SLIDES)
+
+# ============================================================= SLIDE 22 ==
 s = new_slide()
 add_text(s, Inches(0.9), Inches(2.9), Inches(11.5), Inches(1.2),
           "Thank You", size=48, color=INK, bold=True)

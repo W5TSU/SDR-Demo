@@ -1,6 +1,6 @@
 # Presenter's Guide — SDR Demo
 
-Companion to `slides/SDR_Demo.pptx` (21 slides). The slides themselves are
+Companion to `slides/SDR_Demo.pptx` (22 slides). The slides themselves are
 audience-facing only now — no flowgraph filenames, no stage directions, no
 "talking points" printed on screen. Everything you need to actually *run*
 the talk lives here instead, slide by slide, side by side with what the
@@ -77,4 +77,5 @@ demo — say it every time, not just the first time you present this deck.
 | 18 | "More Demo Ideas" | Content slide. Point at `BRAINSTORM.md` for the full writeup rather than reading both columns verbatim if time is short. ~20-25s, or skip per the cut list. |
 | 19 | "Specs at a Glance" | Pure reference table — good Q&A backup, skippable live (see cut list). ~10-15s if you do show it. |
 | 20 | "Go Build Something" (resources) | Content slide, closing links. ~20s. |
-| 21 | "Thank You" / Questions | Open the floor. Offer to demo anything again if someone missed it. |
+| 21 | "Learn the DSP, in Python: pysdr.org" — Fourier Transforms → Filters → Digital Modulation → RX & TX in Python roadmap | Content slide, no action. Good closer before Q&A: everything demoed tonight ran through GNU Radio Companion's canvas, this is "if you want to write the DSP yourself instead." Nice callback -- it's the same site cited on slides 3 (noise) and 17 (bandwidth/Nyquist), worth pointing that out explicitly if you have the time. ~30-40s. |
+| 22 | "Thank You" / Questions | Open the floor. Offer to demo anything again if someone missed it. |
