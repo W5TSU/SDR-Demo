@@ -735,9 +735,20 @@ add_text(s, Inches(0.7), Inches(2.05), Inches(5.6), Inches(0.35), "Quick wins", 
 add_bullets(s, Inches(0.7), Inches(2.5), Inches(5.6), Inches(3.8), left_items, size=17, gap=14)
 add_text(s, Inches(6.9), Inches(2.05), Inches(5.6), Inches(0.35), "Bigger swings", size=16, color=TEAL, bold=True)
 add_bullets(s, Inches(6.9), Inches(2.5), Inches(5.6), Inches(3.8), right_items, size=17, gap=14)
-add_text(s, Inches(0.7), Inches(6.5), Inches(11), Inches(0.4),
+add_text(s, Inches(0.7), Inches(6.45), Inches(11), Inches(0.3),
           "Full writeup with effort/dependency notes: BRAINSTORM.md", size=13, color=MUTED, italic=True)
-footer(s); page_number(s, count(), TOTAL_SLIDES)
+link_tb18 = s.shapes.add_textbox(Inches(0.7), Inches(6.78), Inches(11.9), Inches(0.3))
+link_tf18 = link_tb18.text_frame
+link_tf18.word_wrap = True
+link_p18 = link_tf18.paragraphs[0]
+r18a = link_p18.add_run()
+r18a.text = "Working GNU Radio flowgraphs for many of these modes (ham club tutorial repo): "
+r18a.font.size = Pt(13); r18a.font.italic = True; r18a.font.color.rgb = MUTED; r18a.font.name = FONT
+r18b = link_p18.add_run()
+r18b.text = "github.com/argilo/sdr-examples"
+r18b.font.size = Pt(13); r18b.font.italic = True; r18b.font.name = FONT
+r18b.hyperlink.address = "https://github.com/argilo/sdr-examples"
+page_number(s, count(), TOTAL_SLIDES)
 
 # ============================================================= SLIDE 19 ==
 s = new_slide()
