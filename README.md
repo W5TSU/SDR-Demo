@@ -32,9 +32,10 @@ to say, timing estimates, and when a slide is safe to skip) is in
 `slides/PRESENTER_NOTES.md`** — a slide-by-side table of what's on
 screen next to what to do about it.
 
-All six flowgraphs were validated in this environment with GNU Radio 3.10.12
-(`grcc` compiles each one to Python with no errors). They use the **Soapy
-HackRF Source/Sink** blocks, so they need `gnuradio`, `SoapySDR`, and the
+All seven flowgraphs were validated in this environment with GNU Radio 3.10.12
+(`grcc` compiles each one to Python with no errors, and all seven were
+smoke-tested against a real HackRF). They use the **Soapy HackRF
+Source/Sink** blocks, so they need `gnuradio`, `SoapySDR`, and the
 `soapysdr-module-hackrf` driver — not `gr-osmosdr`. See Setup below.
 
 ## Hardware needed
@@ -69,7 +70,7 @@ HackRF Source/Sink** blocks, so they need `gnuradio`, `SoapySDR`, and the
 
 ## ⚠️ Legal notes before you transmit (Part 97)
 
-Two of the six flowgraphs key up the HackRF's transmitter on the ham bands:
+Two of the seven flowgraphs key up the HackRF's transmitter on the ham bands:
 **`04_playback_2m_band_from_file.grc`** and
 **`05_nbfm_voice_transmitter.grc`**. Before running either:
 
@@ -93,8 +94,8 @@ Two of the six flowgraphs key up the HackRF's transmitter on the ham bands:
   even hear it. This is the safest option for a venue where you don't want
   any actual on-air emission.
 - If you'd rather skip transmitting altogether, the demo still stands on
-  its own with receive-only flowgraphs `01`, `02`, `03`, and `06` — a
-  wideband capture of the entire 2m band to a file is itself a solid
+  its own with receive-only flowgraphs `01`, `02`, `03`, `06`, and `07`
+  — a wideband capture of the entire 2m band to a file is itself a solid
   "wow" moment even without the playback half.
 
 ## Suggested run order (~20-30 min)
@@ -149,6 +150,11 @@ A couple of things worth knowing before you run it:
   day and solar conditions. Daytime is usually your best bet.
 - Receive only, no license needed — same as the other RX flowgraphs in
   this kit.
+
+Launch it with `full-band-demo/Full-20M-Audio.sh` (works from any
+directory) or open `07_hf_20m_band_wideband_am.grc` directly in GRC.
+This is also what slide 4 of the talk deck runs live — see
+`slides/PRESENTER_NOTES.md`.
 
 ## Running a flowgraph
 

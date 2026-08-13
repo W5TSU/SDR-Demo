@@ -374,21 +374,21 @@ for i, item in enumerate(fs_items):
         arrow.line.fill.background(); arrow.shadow.inherit = False
     fs_bx += fs_bw + fs_gap
 add_text(s, Inches(0.7), Inches(5.75), Inches(11.9), Inches(0.35),
-          "Real hardware built to do exactly this -- an SDR front end plus Linux "
-          "demodulating FM, SSB, and M17 digital voice out of live RF:",
+          "Once you can pick a signal out of the noise, the next question is "
+          "\"what am I even listening to\" -- a crowdsourced field guide:",
           size=14, color=BODY, align=PP_ALIGN.CENTER)
 link_tb5 = s.shapes.add_textbox(Inches(0.7), Inches(6.1), Inches(11.9), Inches(0.4))
 link_tf5 = link_tb5.text_frame
 link_p5 = link_tf5.paragraphs[0]
 link_p5.alignment = PP_ALIGN.CENTER
 link_r5 = link_p5.add_run()
-link_r5.text = "github.com/M17-Project/LinHT-hw"
+link_r5.text = "sigidwiki.com -- Signal Identification Guide"
 link_r5.font.size = Pt(18); link_r5.font.bold = True
 link_r5.font.color.rgb = TEAL; link_r5.font.name = FONT
-link_r5.hyperlink.address = "https://github.com/M17-Project/LinHT-hw"
+link_r5.hyperlink.address = "https://www.sigidwiki.com/wiki/Signal_Identification_Guide"
 add_text(s, Inches(0.7), Inches(7.08), Inches(11), Inches(0.3),
-          "LinHT: an open-source Linux handheld SDR transceiver -- FM/SSB/M17, "
-          "CC BY-NC-SA 4.0",
+          "sigidwiki.com -- ~600 identified signals with example sounds and "
+          "waterfall images, from VLF to UHF",
           size=10, color=MUTED, italic=True)
 page_number(s, count(), TOTAL_SLIDES)
 
