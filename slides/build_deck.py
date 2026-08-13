@@ -164,7 +164,7 @@ def pill(slide, x, y, w, h, text, fill=TEAL_DIM, text_color=TEAL, size=13):
     return shp
 
 
-TOTAL_SLIDES = 22
+TOTAL_SLIDES = 24
 _n = [0]
 
 
@@ -299,6 +299,97 @@ page_number(s, count(), TOTAL_SLIDES)
 
 # ============================================================== SLIDE 4 ==
 s = new_slide()
+kicker_title(s, "Before We Touch The Radio", "Hear It For Yourself, Live")
+add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.9), Inches(1.6), [
+    "Everything on the last slide -- thermal noise, atmospheric sferics, "
+    "switching power supplies -- is audible right now, live, for free, "
+    "no hardware required.",
+    "WebSDR runs a worldwide network of real receivers online, streaming "
+    "live spectrum audio anyone can tune -- the exact mix of signal and "
+    "noise this whole talk is about.",
+], size=18, gap=14)
+link_btn = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(3.67), Inches(4.15), Inches(6.0), Inches(0.9))
+link_btn.adjustments[0] = 0.25
+link_btn.fill.solid(); link_btn.fill.fore_color.rgb = TEAL_DIM
+link_btn.line.color.rgb = TEAL; link_btn.line.width = Pt(1.5)
+link_btn.shadow.inherit = False
+link_btn_tf = link_btn.text_frame
+link_btn_tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+link_btn_p = link_btn_tf.paragraphs[0]
+link_btn_p.alignment = PP_ALIGN.CENTER
+link_btn_r = link_btn_p.add_run()
+link_btn_r.text = "websdr.org  --  listen live"
+link_btn_r.font.size = Pt(22); link_btn_r.font.bold = True
+link_btn_r.font.color.rgb = TEAL; link_btn_r.font.name = FONT
+link_btn_r.hyperlink.address = "http://websdr.org/"
+add_text(s, Inches(0.7), Inches(5.35), Inches(11.9), Inches(0.4),
+          "Try it: pick any frequency and just listen.",
+          size=15, color=MUTED, italic=True, align=PP_ALIGN.CENTER)
+add_text(s, Inches(0.7), Inches(7.08), Inches(11), Inches(0.3),
+          "websdr.org -- University of Twente WebSDR, public since April 2008 "
+          "(Pieter-Tjerk de Boer, PA3FWM)",
+          size=10, color=MUTED, italic=True)
+page_number(s, count(), TOTAL_SLIDES)
+
+# ============================================================== SLIDE 5 ==
+s = new_slide()
+kicker_title(s, "Before We Touch The Radio", "Finding a Signal in the Noise")
+add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.9), Inches(1.9), [
+    "A receiver doesn't remove noise -- it narrows down. Filter to just "
+    "the channel bandwidth of the signal you want, and every watt of "
+    "noise outside that channel disappears with it.",
+    "What actually matters is SNR: not \"is there noise\" (there always "
+    "is) but \"is the signal stronger than the noise inside the "
+    "bandwidth you're listening in.\"",
+    "Modulation is what makes a signal findable in the first place -- "
+    "FM, AM, PSK, and friends each carve a distinct, structured shape "
+    "into the spectrum that a demodulator can lock onto and reject "
+    "everything else.",
+], size=16, gap=12)
+# mini diagram: Wideband capture (mostly noise) -> Filter to channel -> Demodulate
+fs_dy = Inches(4.35)
+fs_items = ["Wideband Capture\n(mostly noise)", "Filter to\nChannel Bandwidth", "Demodulate\n(now readable)"]
+fs_bw = Inches(3.3); fs_gap = Inches(0.55)
+fs_total_w = fs_bw * len(fs_items) + fs_gap * (len(fs_items) - 1)
+fs_bx = (SLIDE_W - fs_total_w) / 2
+for i, item in enumerate(fs_items):
+    chip = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, fs_bx, fs_dy, fs_bw, Inches(1.1))
+    chip.adjustments[0] = 0.12
+    chip.fill.solid()
+    chip.fill.fore_color.rgb = TEAL_DIM if i == 2 else BG_ALT
+    chip.line.color.rgb = TEAL
+    chip.line.width = Pt(1.25)
+    chip.shadow.inherit = False
+    tf = chip.text_frame; tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+    p = tf.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
+    r = p.add_run(); r.text = item
+    r.font.size = Pt(14); r.font.bold = True; r.font.color.rgb = INK; r.font.name = FONT
+    if i < len(fs_items) - 1:
+        arrow = s.shapes.add_shape(MSO_SHAPE.RIGHT_ARROW, fs_bx + fs_bw, fs_dy + Inches(0.38), fs_gap, Inches(0.34))
+        arrow.fill.solid(); arrow.fill.fore_color.rgb = TEAL
+        arrow.line.fill.background(); arrow.shadow.inherit = False
+    fs_bx += fs_bw + fs_gap
+add_text(s, Inches(0.7), Inches(5.75), Inches(11.9), Inches(0.35),
+          "Real hardware built to do exactly this -- an SDR front end plus Linux "
+          "demodulating FM, SSB, and M17 digital voice out of live RF:",
+          size=14, color=BODY, align=PP_ALIGN.CENTER)
+link_tb5 = s.shapes.add_textbox(Inches(0.7), Inches(6.1), Inches(11.9), Inches(0.4))
+link_tf5 = link_tb5.text_frame
+link_p5 = link_tf5.paragraphs[0]
+link_p5.alignment = PP_ALIGN.CENTER
+link_r5 = link_p5.add_run()
+link_r5.text = "github.com/M17-Project/LinHT-hw"
+link_r5.font.size = Pt(18); link_r5.font.bold = True
+link_r5.font.color.rgb = TEAL; link_r5.font.name = FONT
+link_r5.hyperlink.address = "https://github.com/M17-Project/LinHT-hw"
+add_text(s, Inches(0.7), Inches(7.08), Inches(11), Inches(0.3),
+          "LinHT: an open-source Linux handheld SDR transceiver -- FM/SSB/M17, "
+          "CC BY-NC-SA 4.0",
+          size=10, color=MUTED, italic=True)
+page_number(s, count(), TOTAL_SLIDES)
+
+# ============================================================== SLIDE 6 ==
+s = new_slide()
 kicker_title(s, "The Idea", "What Is Software Defined Radio?")
 add_bullets(s, Inches(0.7), Inches(2.1), Inches(6.9), Inches(4.5), [
     "Traditional radios: filtering, mixing, and demodulation are done by "
@@ -344,7 +435,7 @@ for lab, sb in zip(labels, sub):
     by += Inches(1.2)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================== SLIDE 5 ==
+# ============================================================== SLIDE 7 ==
 s = new_slide()
 kicker_title(s, "The Hardware", "HackRF One")
 # two panel layout: core specs vs. TX capabilities
@@ -389,7 +480,7 @@ add_text(s, Inches(0.7), Inches(7.08), Inches(9), Inches(0.3),
           size=10, color=MUTED, italic=True)
 page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================== SLIDE 6 ==
+# ============================================================== SLIDE 8 ==
 s = new_slide()
 kicker_title(s, "The Software", "GNU Radio + GNU Radio Companion")
 add_bullets(s, Inches(0.7), Inches(2.1), Inches(6.7), Inches(4.5), [
@@ -432,7 +523,7 @@ footer(s); page_number(s, count(), TOTAL_SLIDES)
 s.shapes.add_picture(str(ASSETS / "gnuradio_logo.png"),
                       Inches(8.51), Inches(0.24), Inches(3.66), Inches(1.83))
 
-# ============================================================== SLIDE 7 ==
+# ============================================================== SLIDE 9 ==
 s = new_slide()
 kicker_title(s, "Core Concept", "Reading a Flowgraph")
 add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(2.0), [
@@ -472,7 +563,7 @@ footer(s); page_number(s, count(), TOTAL_SLIDES)
 s.shapes.add_picture(str(ASSETS / "grc_flowgraph_screenshot.jpg"),
                       Inches(6.94), Inches(0.19), Inches(5.20), Inches(1.64))
 
-# ============================================================== SLIDE 8 ==
+# ============================================================== SLIDE 10 ==
 s = new_slide()
 kicker_title(s, "Demo 0  ·  Icebreaker", "FM Broadcast Receiver", kicker_color=MUTED)
 pill(s, Inches(0.7), Inches(1.85), Inches(1.5), Inches(0.35), "RECEIVE ONLY", fill=TEAL_DIM, text_color=TEAL, size=12)
@@ -485,7 +576,7 @@ add_bullets(s, Inches(0.7), Inches(2.5), Inches(11.7), Inches(3.6), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================== SLIDE 9 ==
+# ============================================================== SLIDE 11 ==
 s = new_slide()
 kicker_title(s, "Demo 1", "Live Spectrum & Waterfall", kicker_color=TEAL)
 pill(s, Inches(0.7), Inches(1.85), Inches(1.5), Inches(0.35), "RECEIVE ONLY", fill=TEAL_DIM, text_color=TEAL, size=12)
@@ -499,7 +590,7 @@ add_bullets(s, Inches(0.7), Inches(2.5), Inches(11.7), Inches(3.8), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 10 ==
+# ============================================================= SLIDE 12 ==
 s = new_slide()
 kicker_title(s, "Demo 2", "Tunable NBFM Voice Receiver", kicker_color=TEAL)
 pill(s, Inches(0.7), Inches(1.85), Inches(1.5), Inches(0.35), "RECEIVE ONLY", fill=TEAL_DIM, text_color=TEAL, size=12)
@@ -512,7 +603,7 @@ add_bullets(s, Inches(0.7), Inches(2.5), Inches(11.7), Inches(3.8), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 11 ==
+# ============================================================= SLIDE 13 ==
 s = new_slide(bg=RGBColor(0x1A, 0x14, 0x06))
 add_text(s, Inches(0.7), Inches(0.55), Inches(11.9), Inches(0.4),
           "⚠  BEFORE WE TRANSMIT", size=16, color=AMBER, bold=True)
@@ -532,7 +623,7 @@ add_bullets(s, Inches(0.7), Inches(2.25), Inches(11.7), Inches(4.5), [
 ], size=18, color=RGBColor(0xF3, 0xE3, 0xC7), gap=14)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 12 ==
+# ============================================================= SLIDE 14 ==
 s = new_slide()
 add_text(s, Inches(0.7), Inches(0.5), Inches(11.9), Inches(0.4),
           "DEMO 3 · THE HEADLINE DEMO".upper(), size=14, color=AMBER, bold=True)
@@ -550,7 +641,7 @@ add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 13 ==
+# ============================================================= SLIDE 15 ==
 s = new_slide()
 add_text(s, Inches(0.7), Inches(0.5), Inches(11.9), Inches(0.4),
           "DEMO 3B · THE PAYOFF".upper(), size=14, color=AMBER, bold=True)
@@ -569,7 +660,7 @@ add_bullets(s, Inches(0.7), Inches(2.55), Inches(11.7), Inches(4.0), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 14 ==
+# ============================================================= SLIDE 16 ==
 s = new_slide()
 kicker_title(s, "Demo 4  ·  Optional", "NBFM Voice Transmitter", kicker_color=AMBER)
 pill(s, Inches(0.7), Inches(1.85), Inches(2.5), Inches(0.35), "TRANSMITS — CONTROL OP REQUIRED", fill=AMBER_DIM, text_color=AMBER, size=12)
@@ -580,7 +671,7 @@ add_bullets(s, Inches(0.7), Inches(2.5), Inches(11.7), Inches(3.8), [
 ], size=19, gap=16)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 15 ==
+# ============================================================= SLIDE 17 ==
 s = new_slide()
 kicker_title(s, "The Software, Revisited", "GNU Radio: What It Is, How It's Used")
 p1x = Inches(0.7); pw = Inches(5.7)
@@ -623,7 +714,7 @@ page_number(s, count(), TOTAL_SLIDES)
 s.shapes.add_picture(str(ASSETS / "learn_gnuradio_youtube_thumb.png"),
                       Inches(6.93), Inches(3.61), Inches(5.76), Inches(3.43))
 
-# ============================================================= SLIDE 16 ==
+# ============================================================= SLIDE 18 ==
 s = new_slide()
 kicker_title(s, "Beyond Tonight's Setup", "Connecting GNU Radio to Other Radios")
 p1x = Inches(0.7); pw = Inches(5.7)
@@ -668,7 +759,7 @@ add_text(s, Inches(0.7), Inches(7.08), Inches(11), Inches(0.3),
           size=13, color=MUTED, italic=True)
 page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 17 ==
+# ============================================================= SLIDE 19 ==
 s = new_slide()
 kicker_title(s, "One Word, Three Meanings", "Three Kinds of Bandwidth")
 bw_panels = [
@@ -716,7 +807,7 @@ add_text(s, Inches(0.7), Inches(7.08), Inches(11), Inches(0.3),
           size=10, color=MUTED, italic=True)
 page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 18 ==
+# ============================================================= SLIDE 20 ==
 s = new_slide()
 kicker_title(s, "Where This Goes Next", "More Demo Ideas")
 left_items = [
@@ -750,7 +841,7 @@ r18b.font.size = Pt(13); r18b.font.italic = True; r18b.font.name = FONT
 r18b.hyperlink.address = "https://github.com/argilo/sdr-examples"
 page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 19 ==
+# ============================================================= SLIDE 21 ==
 s = new_slide()
 kicker_title(s, "Reference", "Specs at a Glance")
 rows = [
@@ -774,7 +865,7 @@ for i, (k, v) in enumerate(rows):
               color=BODY, anchor=MSO_ANCHOR.MIDDLE)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 20 ==
+# ============================================================= SLIDE 22 ==
 s = new_slide()
 kicker_title(s, "Resources", "Go Build Something")
 add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
@@ -787,7 +878,7 @@ add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(4.5), [
 ], size=19, gap=18)
 footer(s); page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 21 ==
+# ============================================================= SLIDE 23 ==
 s = new_slide()
 kicker_title(s, "Software Defined Radio Requires Software", "Learn the DSP, in Python: pysdr.org")
 add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.7), Inches(1.15), [
@@ -836,7 +927,7 @@ add_text(s, Inches(0.7), Inches(7.08), Inches(9), Inches(0.3),
           size=10, color=MUTED, italic=True)
 page_number(s, count(), TOTAL_SLIDES)
 
-# ============================================================= SLIDE 22 ==
+# ============================================================= SLIDE 24 ==
 s = new_slide()
 add_text(s, Inches(0.9), Inches(2.9), Inches(11.5), Inches(1.2),
           "Thank You", size=48, color=INK, bold=True)
