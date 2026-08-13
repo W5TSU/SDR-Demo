@@ -1,38 +1,33 @@
 options:
   parameters:
+    alias: ''
     author: Mark Grennan
     catch_exceptions: 'True'
-    category: '[GRC Hier Blocks]'
-    cmake_opt: ''
-    comment: 'RECEIVE ONLY, no license needed. Captures the entire 20m amateur
-      band (14.000-14.350 MHz) in one instantaneous bandwidth and envelope-detects
-      the whole thing as one AM audio stream -- not tuned to any single station.
-      The result is a live cacophony: every CW/SSB/AM/data signal active on the
-      band at once, mixed together the way a broadband envelope detector would
-      hear it, rather than one clean demodulated conversation. SSB signals in
-      particular will sound garbled/warbly through plain AM envelope detection
-      since they carry no carrier -- that is expected, not a bug.'
+    comment: 'RECEIVE ONLY, no license needed. Captures the entire 20m amateur band
+      (14.000-14.350 MHz) in one instantaneous bandwidth and envelope-detects the
+      whole thing as one AM audio stream -- not tuned to any single station. The result
+      is a live cacophony: every CW/SSB/AM/data signal active on the band at once,
+      mixed together the way a broadband envelope detector would hear it, rather than
+      one clean demodulated conversation. SSB signals in particular will sound garbled/warbly
+      through plain AM envelope detection since they carry no carrier -- that is expected,
+      not a bug.'
     copyright: ''
-    description: Wideband AM-envelope receiver for the entire 20m band -- "what
-      does the whole band sound like at once" rather than a single-station AM
-      receiver.
-    gen_cmake: 'On'
+    description: Wideband AM-envelope receiver for the entire 20m band -- "what does
+      the whole band sound like at once" rather than a single-station AM receiver.
     gen_linking: dynamic
     generate_options: qt_gui
+    generator_class_name: PythonQtGuiGenerator
+    generator_module: gnuradio.grc.workflows.python_qt_gui
     hier_block_src_path: '.:'
     id: hf_20m_band_wideband_am
     max_nouts: '0'
     output_language: python
-    placement: (0,0)
     qt_qss_theme: ''
     realtime_scheduling: ''
     run: 'True'
     run_command: '{python} -u {filename}'
-    run_options: prompt
-    sizing_mode: fixed
     thread_safe_setters: ''
     title: 'Bonus: Whole-Band 20m AM Envelope Receiver'
-    window_size: (1600, 1000)
   states:
     bus_sink: false
     bus_source: false
@@ -42,33 +37,6 @@ options:
     state: enabled
 
 blocks:
-- name: samp_rate
-  id: variable
-  parameters:
-    comment: 1 Msps is the lowest rate this HackRF/SoapySDR combo accepts (integer
-      MHz steps only -- see flowgraphs/06's comment for the same constraint) and
-      covers 13.675-14.675 MHz, comfortably containing the full 350 kHz-wide 20m
-      band (14.000-14.350 MHz) with wide margin on both edges.
-    value: '1e6'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [24, 92.0]
-    rotation: 0
-    state: enabled
-- name: center_freq
-  id: variable
-  parameters:
-    comment: Center of the 20m band (14.000-14.350 MHz)
-    value: '14.175e6'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [200, 92.0]
-    rotation: 0
-    state: enabled
 - name: audio_rate
   id: variable
   parameters:
@@ -79,6 +47,18 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [24, 172.0]
+    rotation: 0
+    state: enabled
+- name: center_freq
+  id: variable
+  parameters:
+    comment: Center of the 20m band (14.000-14.350 MHz)
+    value: 14.175e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 92.0]
     rotation: 0
     state: enabled
 - name: lna_gain
@@ -100,6 +80,21 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [408, 12.0]
+    rotation: 0
+    state: enabled
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: 1 Msps is the lowest rate this HackRF/SoapySDR combo accepts (integer
+      MHz steps only -- see flowgraphs/06's comment for the same constraint) and covers
+      13.675-14.675 MHz, comfortably containing the full 350 kHz-wide 20m band (14.000-14.350
+      MHz) with wide margin on both edges.
+    value: 1e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 92.0]
     rotation: 0
     state: enabled
 - name: vga_gain
@@ -127,8 +122,8 @@ blocks:
   id: variable_qtgui_range
   parameters:
     comment: Envelope-detected + DC-blocked audio runs much quieter than a normal
-      demodulator's output, hence the wider 0-10 range and higher default than
-      the other RX flowgraphs in this kit.
+      demodulator's output, hence the wider 0-10 range and higher default than the
+      other RX flowgraphs in this kit.
     gui_hint: 0,4,1,2
     label: Volume
     min_len: '200'
@@ -146,89 +141,97 @@ blocks:
     coordinate: [824, 12.0]
     rotation: 0
     state: enabled
-- name: soapy_hackrf_source_0
-  id: soapy_hackrf_source
+- name: audio_sink_0
+  id: audio_sink
   parameters:
     affinity: ''
     alias: ''
-    amp: 'True'
-    bandwidth: '0'
-    center_freq: center_freq
-    comment: RF amp defaults on -- HF signals through a simple wire antenna are
-      typically much weaker than the VHF/UHF signals elsewhere in this kit.
-    dev_args: ''
-    gain: lna_gain
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samp_rate: samp_rate
-    type: fc32
-    vga: vga_gain
+    comment: ''
+    device_name: ''
+    num_inputs: '1'
+    ok_to_block: 'True'
+    samp_rate: audio_rate
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [24, 292.0]
+    coordinate: [1152, 656.0]
     rotation: 0
     state: enabled
-- name: qtgui_waterfall_sink_x_0
-  id: qtgui_waterfall_sink_x
+- name: blocks_complex_to_mag_0
+  id: blocks_complex_to_mag
   parameters:
     affinity: ''
     alias: ''
-    alpha1: '1.0'
-    alpha10: '1.0'
-    alpha2: '1.0'
-    alpha3: '1.0'
-    alpha4: '1.0'
-    alpha5: '1.0'
-    alpha6: '1.0'
-    alpha7: '1.0'
-    alpha8: '1.0'
-    alpha9: '1.0'
-    axislabels: 'True'
-    bw: samp_rate
-    color1: '0'
-    color10: '0'
-    color2: '0'
-    color3: '0'
-    color4: '0'
-    color5: '0'
-    color6: '0'
-    color7: '0'
-    color8: '0'
-    color9: '0'
-    comment: Watch activity across the whole band while listening to the mix
-    fc: center_freq
-    fftsize: '4096'
-    freqhalf: 'True'
-    grid: 'False'
-    gui_hint: 1,0,2,4
-    int_max: '-10'
-    int_min: '-100'
-    label1: ''
-    label10: ''
-    label2: ''
-    label3: ''
-    label4: ''
-    label5: ''
-    label6: ''
-    label7: ''
-    label8: ''
-    label9: ''
-    legend: 'True'
+    comment: 'The whole trick: envelope-detect (AM demod) the raw wideband IQ directly,
+      with no channel filter first -- every signal present across the full capture
+      contributes to the resulting envelope at once.'
     maxoutbuf: '0'
     minoutbuf: '0'
-    name: '"20m band (14.000-14.350 MHz)"'
-    nconnections: '1'
-    showports: 'False'
-    type: complex
-    update_time: '0.10'
-    wintype: window.WIN_BLACKMAN_hARRIS
+    vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [408, 292.0]
+    coordinate: [232, 416.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_const_xx_0
+  id: blocks_multiply_const_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: volume
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [776, 656.0]
+    rotation: 0
+    state: enabled
+- name: dc_blocker_xx_0
+  id: dc_blocker_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: Removes the DC bias every AM envelope carries (proportional to total
+      in-band power) so only the audible variation remains.
+    length: '32'
+    long_form: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: ff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [240, 512.0]
+    rotation: 0
+    state: enabled
+- name: pfb_arb_resampler_xxx_0
+  id: pfb_arb_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    atten: '100'
+    comment: Downsample the real envelope signal from samp_rate to audio_rate
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nfilts: '32'
+    rrate: audio_rate / samp_rate
+    samp_delay: '0'
+    taps: ''
+    type: fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [240, 632.0]
     rotation: 0
     state: enabled
 - name: qtgui_freq_sink_x_0
@@ -309,111 +312,103 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [408, 500.0]
+    coordinate: [760, 192.0]
     rotation: 0
     state: enabled
-- name: blocks_complex_to_mag_0
-  id: blocks_complex_to_mag
+- name: qtgui_waterfall_sink_x_0
+  id: qtgui_waterfall_sink_x
   parameters:
     affinity: ''
     alias: ''
-    comment: 'The whole trick: envelope-detect (AM demod) the raw wideband IQ
-      directly, with no channel filter first -- every signal present across the
-      full capture contributes to the resulting envelope at once.'
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    axislabels: 'True'
+    bw: samp_rate
+    color1: '0'
+    color10: '0'
+    color2: '0'
+    color3: '0'
+    color4: '0'
+    color5: '0'
+    color6: '0'
+    color7: '0'
+    color8: '0'
+    color9: '0'
+    comment: Watch activity across the whole band while listening to the mix
+    fc: center_freq
+    fftsize: '4096'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: 1,0,2,4
+    int_max: '-10'
+    int_min: '-100'
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
     maxoutbuf: '0'
     minoutbuf: '0'
-    vlen: '1'
+    name: '"20m band (14.000-14.350 MHz)"'
+    nconnections: '1'
+    showports: 'False'
+    type: complex
+    update_time: '0.10'
+    wintype: window.WIN_BLACKMAN_hARRIS
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [24, 460.0]
+    coordinate: [760, 296.0]
     rotation: 0
     state: enabled
-- name: dc_blocker_xx_0
-  id: dc_blocker_xx
+- name: soapy_hackrf_source_0
+  id: soapy_hackrf_source
   parameters:
     affinity: ''
     alias: ''
-    comment: Removes the DC bias every AM envelope carries (proportional to
-      total in-band power) so only the audible variation remains.
-    length: '32'
-    long_form: 'True'
+    amp: 'True'
+    bandwidth: '0'
+    center_freq: center_freq
+    comment: RF amp defaults on -- HF signals through a simple wire antenna are typically
+      much weaker than the VHF/UHF signals elsewhere in this kit.
+    dev_args: ''
+    gain: lna_gain
     maxoutbuf: '0'
     minoutbuf: '0'
-    type: ff
+    samp_rate: samp_rate
+    type: fc32
+    vga: vga_gain
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [280, 460.0]
-    rotation: 0
-    state: enabled
-- name: pfb_arb_resampler_xxx_0
-  id: pfb_arb_resampler_xxx
-  parameters:
-    affinity: ''
-    alias: ''
-    atten: '100'
-    comment: Downsample the real envelope signal from samp_rate to audio_rate
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    nfilts: '32'
-    rrate: audio_rate / samp_rate
-    samp_delay: '0'
-    taps: ''
-    type: fff
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [536, 460.0]
-    rotation: 0
-    state: enabled
-- name: blocks_multiply_const_xx_0
-  id: blocks_multiply_const_xx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    const: volume
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    type: float
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [792, 460.0]
-    rotation: 0
-    state: enabled
-- name: audio_sink_0
-  id: audio_sink
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    device_name: ''
-    num_inputs: '1'
-    ok_to_block: 'True'
-    samp_rate: audio_rate
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1024, 460.0]
+    coordinate: [208, 256.0]
     rotation: 0
     state: enabled
 
 connections:
-- [soapy_hackrf_source_0, '0', qtgui_waterfall_sink_x_0, '0']
-- [soapy_hackrf_source_0, '0', qtgui_freq_sink_x_0, '0']
-- [soapy_hackrf_source_0, '0', blocks_complex_to_mag_0, '0']
 - [blocks_complex_to_mag_0, '0', dc_blocker_xx_0, '0']
+- [blocks_multiply_const_xx_0, '0', audio_sink_0, '0']
 - [dc_blocker_xx_0, '0', pfb_arb_resampler_xxx_0, '0']
 - [pfb_arb_resampler_xxx_0, '0', blocks_multiply_const_xx_0, '0']
-- [blocks_multiply_const_xx_0, '0', audio_sink_0, '0']
+- [soapy_hackrf_source_0, '0', blocks_complex_to_mag_0, '0']
+- [soapy_hackrf_source_0, '0', qtgui_freq_sink_x_0, '0']
+- [soapy_hackrf_source_0, '0', qtgui_waterfall_sink_x_0, '0']
 
 metadata:
   file_format: 1

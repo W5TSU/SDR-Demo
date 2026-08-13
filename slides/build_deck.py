@@ -300,15 +300,19 @@ page_number(s, count(), TOTAL_SLIDES)
 # ============================================================== SLIDE 4 ==
 s = new_slide()
 kicker_title(s, "Before We Touch The Radio", "Hear It For Yourself, Live")
-add_bullets(s, Inches(0.7), Inches(2.1), Inches(11.9), Inches(1.6), [
+pill(s, Inches(0.7), Inches(1.85), Inches(1.5), Inches(0.35), "RECEIVE ONLY", fill=TEAL_DIM, text_color=TEAL, size=12)
+add_bullets(s, Inches(0.7), Inches(2.45), Inches(11.9), Inches(1.6), [
     "Everything on the last slide -- thermal noise, atmospheric sferics, "
-    "switching power supplies -- is audible right now, live, for free, "
-    "no hardware required.",
-    "WebSDR runs a worldwide network of real receivers online, streaming "
-    "live spectrum audio anyone can tune -- the exact mix of signal and "
-    "noise this whole talk is about.",
-], size=18, gap=14)
-link_btn = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(3.67), Inches(4.15), Inches(6.0), Inches(0.9))
+    "switching power supplies -- is audible right now, live.",
+    "The entire 20-meter ham band (14.000-14.350 MHz), captured all at "
+    "once and played as one audio stream -- not tuned to any single "
+    "station, just the raw mix of everything active on the band.",
+], size=17, gap=12)
+add_text(s, Inches(0.7), Inches(4.35), Inches(11.9), Inches(0.35),
+          "Prefer to go exploring on your own later? A worldwide network of "
+          "live receivers anyone can tune:",
+          size=13, color=MUTED, italic=True, align=PP_ALIGN.CENTER)
+link_btn = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(3.67), Inches(4.8), Inches(6.0), Inches(0.75))
 link_btn.adjustments[0] = 0.25
 link_btn.fill.solid(); link_btn.fill.fore_color.rgb = TEAL_DIM
 link_btn.line.color.rgb = TEAL; link_btn.line.width = Pt(1.5)
@@ -319,12 +323,12 @@ link_btn_p = link_btn_tf.paragraphs[0]
 link_btn_p.alignment = PP_ALIGN.CENTER
 link_btn_r = link_btn_p.add_run()
 link_btn_r.text = "websdr.org  --  listen live"
-link_btn_r.font.size = Pt(22); link_btn_r.font.bold = True
+link_btn_r.font.size = Pt(19); link_btn_r.font.bold = True
 link_btn_r.font.color.rgb = TEAL; link_btn_r.font.name = FONT
 link_btn_r.hyperlink.address = "http://websdr.org/"
-add_text(s, Inches(0.7), Inches(5.35), Inches(11.9), Inches(0.4),
+add_text(s, Inches(0.7), Inches(5.75), Inches(11.9), Inches(0.4),
           "Try it: pick any frequency and just listen.",
-          size=15, color=MUTED, italic=True, align=PP_ALIGN.CENTER)
+          size=14, color=MUTED, italic=True, align=PP_ALIGN.CENTER)
 add_text(s, Inches(0.7), Inches(7.08), Inches(11), Inches(0.3),
           "websdr.org -- University of Twente WebSDR, public since April 2008 "
           "(Pieter-Tjerk de Boer, PA3FWM)",

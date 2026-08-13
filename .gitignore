@@ -5,6 +5,7 @@
 __pycache__/
 *.pyc
 .venv/
+flowgraphs/*.py
 
 # Wideband IQ recordings -- multi-GB, regenerate via the record flowgraphs
 recordings/*.iq
