@@ -7,7 +7,7 @@ mixed audience (ham club + general tech), but trims down fine for a shorter slot
 ## What's in this repo
 
 ```
-flowgraphs/       6 working GNU Radio Companion (.grc) flowgraphs, GRC 3.10 format
+flowgraphs/       7 working GNU Radio Companion (.grc) flowgraphs, GRC 3.10 format
 full-band-demo/   Standalone gr-osmosdr implementation of the same wideband
                   2m-band record/playback demo -- its own README, see below
 recordings/       Where captured IQ files land (empty until you run Demo 3)
@@ -121,6 +121,34 @@ wideband capture once you have one (callsign replay, offline demodulation
 of any signal in the band, repeatable receiver testing, interference
 documentation, and more), several of which are folded into
 `BRAINSTORM.md`.
+
+## Bonus: what does the whole 20m band sound like?
+
+`07_hf_20m_band_wideband_am.grc` is a different kind of demo from the
+rest of this kit — HF instead of VHF/UHF, and not tuned to any single
+station. It captures the entire 20m amateur band (14.000-14.350 MHz) in
+one 1 Msps instantaneous bandwidth and runs a plain AM envelope detector
+(`complex_to_mag` → DC blocker, no channel filter at all) directly on
+the raw wideband IQ. The result is every CW/SSB/AM/data signal active on
+the band at once, mixed into one live audio stream — a cacophony, not a
+conversation.
+
+A couple of things worth knowing before you run it:
+
+- **SSB will sound garbled**, not like clean voice. SSB carries no
+  carrier, so a plain envelope detector doesn't recover intelligible
+  audio from it the way it does from true AM — you'll still hear
+  activity (warbling, whistles, beat notes), just not readable speech.
+  That's expected, not a bug.
+- **Antenna matters a lot more here** than in the VHF/UHF demos. HF
+  signals through a simple wire antenna are typically much weaker than
+  a handheld held next to the HackRF, which is why this flowgraph
+  defaults the RF amp on and starts the Volume slider higher (envelope
+  + DC-blocked audio runs quiet).
+- **Band conditions matter too** — 20m activity varies a lot by time of
+  day and solar conditions. Daytime is usually your best bet.
+- Receive only, no license needed — same as the other RX flowgraphs in
+  this kit.
 
 ## Running a flowgraph
 
